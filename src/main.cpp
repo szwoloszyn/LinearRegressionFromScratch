@@ -24,7 +24,7 @@ int main()
 
     // matrix.print(std::cout, "inversedxx");
 
-    LinearRegression testVec{};
+    LinearRegression testVec{LinearRegression::ModelMethod::NORMAL_EQ};
     mat X = { {1, 1},
              {1, 2} };
     vec y = {2,4};
