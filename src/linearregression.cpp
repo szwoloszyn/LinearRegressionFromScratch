@@ -35,20 +35,19 @@ arma::vec LinearRegression::kFoldCrossValidation(arma::mat X, arma::vec y, size_
     std::vector<vec> y_folds{k};
     this->splitFolds(X,y,k,X_folds, y_folds);
 
-    // std::cout << "X FOLDS: \n";
-    // for (auto i = 0; i < k; ++i) {
-    //     std::cout << i+1 << ". fold: " << X_folds[i] << "\n";
-    // }
-    // std::cout << "\nY FOLDS: \n";
-    // for (auto i = 0; i < k; ++i) {
-    //     std::cout << i+1 << ". fold: " << y_folds[i] << "\n";
-    // }
+    std::cout << "X FOLDS: \n";
+    for (auto i = 0; i < k; ++i) {
+        std::cout << i+1 << ". fold: " << X_folds[i] << "\n";
+    }
+    std::cout << "\nY FOLDS: \n";
+    for (auto i = 0; i < k; ++i) {
+        std::cout << i+1 << ". fold: " << y_folds[i] << "\n";
+    }
+    std::cout << concatExcept(y_folds,1) << "!";
+
     for (auto i = 0; i < k; ++i) {
         auto X_testFold = X_folds[i];
         auto y_testFold = y_folds[i];
-
-
-
     }
 
     return vec{};
@@ -81,4 +80,24 @@ void LinearRegression::splitFolds(arma::mat X, arma::vec y, size_t k, std::vecto
         y_folds[y_folds.size() - 1] = arma::join_cols(y_folds[y_folds.size() - 1],
                                                       y_shuffled.rows(k*foldSize, y_shuffled.n_rows - 1));
     }
+}
+
+arma::mat LinearRegression::concatExcept(const std::vector<arma::mat> folds, size_t excludeIdx)
+{
+    if (excludeIdx >= folds.size()) {
+        throw std::invalid_argument{"index greater than array size"};
+    }
+    arma::mat finalMat;
+    for (auto i = 0; i < folds.size(); ++i) {
+        if (i == excludeIdx) {
+            continue;
+        }
+        if (finalMat.n_rows == 0) {
+            finalMat = folds[i];
+        }
+        else {
+            finalMat = arma::join_cols(finalMat, folds[i]);
+        }
+    }
+    return finalMat;
 }
