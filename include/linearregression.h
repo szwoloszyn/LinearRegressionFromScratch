@@ -17,6 +17,7 @@ public:
     void fit(arma::mat X, arma::vec y);
     double predict(arma::vec X_pred);
     arma::vec crossValidation();
+    void printCoeffs();
 private:
 
     arma::vec linearParams;

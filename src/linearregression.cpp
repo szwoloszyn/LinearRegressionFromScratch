@@ -37,3 +37,8 @@ double LinearRegression::predict(arma::vec X_pred)
     }
     return prediction;
 }
+
+void LinearRegression::printCoeffs()
+{
+    std::cout << "predicted coefficients: " << linearParams;
+}
