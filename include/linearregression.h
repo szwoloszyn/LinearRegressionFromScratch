@@ -6,22 +6,23 @@
 class LinearRegression
 {
 public:
-    enum ModelMethod {
-        NORMAL_EQ,
-        GRADIENT,
-        UNIDENTIFIED
-    };
+    // enum ModelMethod {
+    //     NORMAL_EQ,
+    //     GRADIENT,
+    //     UNIDENTIFIED
+    // };
 
-    LinearRegression(ModelMethod m = ModelMethod::UNIDENTIFIED);
-    arma::vec solveNormalEquation(arma::mat X, arma::vec y);
-    void fit(arma::mat X, arma::vec y);
+    LinearRegression();
+
+    virtual void fit(arma::mat X, arma::vec y) = 0;
     double predict(arma::vec X_pred);
-    arma::vec kFoldCrossValidation();
+    virtual arma::vec kFoldCrossValidation() = 0;
     void printCoeffs();
-private:
 
+    virtual ~LinearRegression() { }
+protected:
+    //ModelMethod method;
     arma::vec linearParams;
-    ModelMethod method;
 };
 
 // custom exception for unfitted model

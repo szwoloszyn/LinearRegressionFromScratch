@@ -2,24 +2,15 @@
 #include "linearregression.h"
 using arma::vec, arma::mat;
 
-LinearRegression::LinearRegression(ModelMethod m) : linearParams{}, method{m}
+LinearRegression::LinearRegression() : linearParams{}
 {
 
 }
 
-void LinearRegression::fit(arma::mat X, arma::vec y)
-{
-    linearParams = solveNormalEquation(X,y);
-}
 
 
-vec LinearRegression::solveNormalEquation(mat X, vec y)
-{
-    mat X_aug = arma::join_horiz(arma::ones<vec>(X.n_rows), X);
-    //std::cout << X_aug;
-    // normal equation: params = (X.t * X)^-1 * (X.t * y)
-    return (X_aug.t() * X_aug).i() * (X_aug.t() * y);
-}
+
+
 
 double LinearRegression::predict(arma::vec X_pred)
 {

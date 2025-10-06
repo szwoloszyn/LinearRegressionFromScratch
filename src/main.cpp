@@ -4,7 +4,7 @@
 #include <ctime>
 #include <vector>
 
-#include "linearregression.h"
+#include "normalequation.h"
 using arma::vec, arma::mat;
 using namespace std;
 
@@ -72,7 +72,7 @@ int main()
 
     // matrix.print(std::cout, "inversedxx");
 
-    LinearRegression testVec{LinearRegression::ModelMethod::NORMAL_EQ};
+    NormalEquation testVec{};
     mat X{ 1,2};
     X = X.t();
     vec y = {2,4};
@@ -83,4 +83,6 @@ int main()
     //cout << X;
     testVec.fit(X,y);
     testVec.printCoeffs();
+
+    arma::uvec indices = arma::randperm(X.n_rows);
 }
