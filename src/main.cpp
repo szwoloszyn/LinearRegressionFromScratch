@@ -25,8 +25,9 @@ int main()
     // matrix.print(std::cout, "inversedxx");
 
     LinearRegression testVec{LinearRegression::ModelMethod::NORMAL_EQ};
-    mat X = { {1, 1},
-             {1, 2} };
+    mat X{ 1,2};
+    X = X.t();
     vec y = {2,4};
-    cout << testVec.solveNormalEquation(X,y);
+    testVec.fit(X,y);
+    cout << testVec.predict(vec{4});
 }
