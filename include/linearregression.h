@@ -16,7 +16,7 @@ public:
     arma::vec solveNormalEquation(arma::mat X, arma::vec y);
     void fit(arma::mat X, arma::vec y);
     double predict(arma::vec X_pred);
-    arma::vec crossValidation();
+    arma::vec kFoldCrossValidation();
     void printCoeffs();
 private:
 
