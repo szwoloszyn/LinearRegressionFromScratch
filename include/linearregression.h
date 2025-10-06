@@ -16,7 +16,7 @@ public:
 
     virtual void fit(arma::mat X, arma::vec y) = 0;
     double predict(arma::vec X_pred);
-    virtual arma::vec kFoldCrossValidation() = 0;
+    virtual arma::vec kFoldCrossValidation(arma::mat X, arma::vec y, size_t folds = 5) = 0;
     void printCoeffs();
 
     virtual ~LinearRegression() { }

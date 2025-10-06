@@ -84,5 +84,4 @@ int main()
     testVec.fit(X,y);
     testVec.printCoeffs();
 
-    arma::uvec indices = arma::randperm(X.n_rows);
 }
