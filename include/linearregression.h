@@ -15,13 +15,14 @@ public:
     LinearRegression();
 
     virtual void fit(arma::mat X, arma::vec y) = 0;
+    virtual arma::vec getFitResults(arma::mat X, arma::vec y) = 0;
     double predict(arma::vec X_pred);
-    virtual arma::vec kFoldCrossValidation(arma::mat X, arma::vec y, size_t folds = 5) = 0;
+    arma::vec kFoldCrossValidation(arma::mat X, arma::vec y, size_t folds = 5);
     void printCoeffs();
 
     virtual ~LinearRegression() { }
 protected:
-    //ModelMethod method;
+    void splitFolds(arma::mat X, arma::vec y, size_t k, std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds);
     arma::vec linearParams;
 };
 
