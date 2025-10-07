@@ -3,6 +3,7 @@
 
 #include <linearregression.h>
 
+// TODO change public in the end of testing
 class NormalEquation : public LinearRegression
 {
 public:

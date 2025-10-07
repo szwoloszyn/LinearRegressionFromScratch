@@ -95,6 +95,12 @@ int main()
     vec foldy = {
         1,2,3,4,5,6
     };
-    testVec.kFoldCrossValidation(foldX, foldy,1);
+    testVec.kFoldCrossValidation(foldX, foldy,4);
+
+    mat XOneFeature = (mat{0,1,2,3,4,5}).t();
+    vec yOneFeature = {1,3,5,7,9,11};
+    cout << "\n======\n";
+    auto xD = testVec.solveNormalEquation(XOneFeature, yOneFeature);
+    cout << xD.size();
 
 }
