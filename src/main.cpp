@@ -73,16 +73,16 @@ int main()
     // matrix.print(std::cout, "inversedxx");
 
     NormalEquation testVec{};
-    // mat X{ 1,2};
-    // X = X.t();
-    // vec y = {2,4};
-    // testVec.fit(X,y);
-    // cout << testVec.predict(vec{4});
+    mat X{ 1,2};
+    X = X.t();
+    vec y = {2,4};
+    testVec.fit(X,y);
+    cout << testVec.predict(vec{4});
 
-    // generateTrainingData(X,y);
-    // //cout << X;
-    // testVec.fit(X,y);
-    // testVec.printCoeffs();
+    generateTrainingData(X,y);
+    //cout << X;
+    testVec.fit(X,y);
+    testVec.printCoeffs();
 
     mat foldX = {
         {1,1},
@@ -95,6 +95,6 @@ int main()
     vec foldy = {
         1,2,3,4,5,6
     };
-    testVec.kFoldCrossValidation(foldX, foldy,4);
+    testVec.kFoldCrossValidation(foldX, foldy,1);
 
 }

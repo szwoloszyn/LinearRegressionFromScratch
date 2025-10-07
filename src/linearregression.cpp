@@ -31,6 +31,13 @@ double LinearRegression::predict(const arma::vec& X_pred) const
 
 arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma::vec& y, const size_t k) const
 {
+    if (k > X.n_rows) {
+        throw std::invalid_argument{"desired number of "
+                                    "folds is greater than number of learning data!"};
+    }
+    if (k <= 1) {
+        throw std::invalid_argument{"number of folds needs to be at least 2!"};
+    }
     std::vector<mat> X_folds{k};
     std::vector<vec> y_folds{k};
     this->splitFolds(X,y,k,X_folds, y_folds);

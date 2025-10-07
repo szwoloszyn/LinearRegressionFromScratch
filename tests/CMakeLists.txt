@@ -1,0 +1,15 @@
+# tests/CMakeLists.txt
+
+add_executable(unit_tests
+	lin_reg_test.cpp
+)
+
+target_link_libraries(unit_tests
+	sourceCode
+	gtest
+	gtest_main
+	pthread
+)
+
+add_test(NAME unit_tests COMMAND unit_tests)
+target_compile_definitions(unit_tests PRIVATE UNIT_TEST)
