@@ -43,12 +43,13 @@ arma::vec LinearRegression::kFoldCrossValidation(arma::mat X, arma::vec y, size_
     for (auto i = 0; i < k; ++i) {
         std::cout << i+1 << ". fold: " << y_folds[i] << "\n";
     }
-    std::cout << concatExcept(y_folds,1) << "!";
-
     for (auto i = 0; i < k; ++i) {
-        auto X_testFold = X_folds[i];
-        auto y_testFold = y_folds[i];
+        auto X_train = concatFolds(X_folds,i);
+        auto y_train = concatFolds(y_folds,i);
+        auto X_test = X_folds[i];
+        auto y_test = y_folds[i];
     }
+    // TODO I will come back here when I will have loss function ready to go
 
     return vec{};
 }
@@ -82,7 +83,8 @@ void LinearRegression::splitFolds(arma::mat X, arma::vec y, size_t k, std::vecto
     }
 }
 
-arma::mat LinearRegression::concatExcept(const std::vector<arma::mat> folds, size_t excludeIdx)
+template <typename T>
+T LinearRegression::concatFolds(const std::vector<T> folds, size_t excludeIdx)
 {
     if (excludeIdx >= folds.size()) {
         throw std::invalid_argument{"index greater than array size"};

@@ -23,8 +23,13 @@ public:
 
     virtual ~LinearRegression() { }
 protected:
-    void splitFolds(arma::mat X, arma::vec y, size_t k, std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds);
-    arma::mat concatExcept(const std::vector<arma::mat> folds, size_t excludeIdx);
+    void splitFolds(arma::mat X, arma::vec y, size_t k,
+                    std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds);
+
+    template <typename T>
+    T concatFolds(const std::vector<T> folds, size_t excludeIdx);
+
+
     arma::vec linearParams;
 };
 
