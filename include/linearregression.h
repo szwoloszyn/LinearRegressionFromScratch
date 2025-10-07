@@ -3,6 +3,13 @@
 
 #include <armadillo>
 
+
+#ifdef UNIT_TEST
+#define TESTABLE public
+#else
+#define TESTABLE protected
+#endif
+
 // TODO parameters reference/copy cleanup
 class LinearRegression
 {
@@ -19,17 +26,17 @@ public:
     virtual arma::vec getFitResults(arma::mat X, arma::vec y) const = 0;
     double predict(const arma::vec& X_pred) const;
     arma::vec kFoldCrossValidation(const arma::mat& X, const arma::vec& y, const size_t k = 5) const;
-    void printCoeffs() const;
+    arma::vec getCoeffs() const;
 
     virtual ~LinearRegression() { }
-protected:
+TESTABLE:
     void splitFolds(const arma::mat& X, const arma::vec& y, const size_t k,
                     std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds) const;
 
     template <typename T>
     T concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const;
 
-
+protected:
     arma::vec linearParams;
 };
 

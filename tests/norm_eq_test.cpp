@@ -45,3 +45,18 @@ TEST_F(NormEqTest, normalEqProperlySolved)
         ASSERT_EQ(thetas[i], expectedThetas[i]);
     }
 }
+
+TEST_F(NormEqTest, fitWorks)
+{
+    NormalEquation myModel;
+    myModel.fit(XOneFeature, yOneFeature);
+    auto thetas = myModel.getCoeffs();
+    vec expectedThetas{1.0,2.0};
+
+    ASSERT_EQ(expectedThetas.size(), thetas.size());
+    for (auto i = 0; i < expectedThetas.size(); ++i) {
+        ASSERT_EQ(thetas[i], expectedThetas[i]);
+    }
+}
+
+

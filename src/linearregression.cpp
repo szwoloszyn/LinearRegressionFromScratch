@@ -61,14 +61,18 @@ arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma:
     return vec{};
 }
 
-void LinearRegression::printCoeffs() const
+arma::vec LinearRegression::getCoeffs() const
 {
-    std::cout << "predicted coefficients: " << linearParams;
+    return linearParams;
 }
 
 void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const size_t k,
                                   std::vector<arma::mat> &X_folds, std::vector<arma::vec> &y_folds) const
 {
+    if (X_folds.size() != k or y_folds.size() != k) {
+        throw std::invalid_argument{"vectors must be size-fitted to number of folds!"};
+    }
+
     arma::uvec indices = arma::randperm(X.n_rows);
     arma::mat X_shuffled = X.rows(indices);
     arma::vec y_shuffled = y.elem(indices);

@@ -82,7 +82,7 @@ int main()
     generateTrainingData(X,y);
     //cout << X;
     testVec.fit(X,y);
-    testVec.printCoeffs();
+    //AtestVec.printCoeffs();
 
     mat foldX = {
         {1,1},
@@ -101,6 +101,16 @@ int main()
     vec yOneFeature = {1,3,5,7,9,11};
     cout << "\n======\n";
     auto xD = testVec.solveNormalEquation(XOneFeature, yOneFeature);
-    cout << xD.size();
+    cout << xD.size() << "|\n";
+    NormalEquation newModel;
+    newModel.fit(XOneFeature,yOneFeature);
+    cout << newModel.predict({-53.2});
+
+    // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
+    // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};
+    // std::vector<arma::mat> X_folds;
+    // std::vector<arma::vec> y_folds;
+    // newModel.splitFolds(XCVExample, yCVExample, 4, X_folds, y_folds);
+    // cout << X_folds[1];
 
 }

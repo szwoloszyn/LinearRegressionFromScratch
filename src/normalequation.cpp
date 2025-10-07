@@ -20,4 +20,3 @@ void NormalEquation::fit(const arma::mat& X, const arma::vec& y)
     std::cout << "theta: " << linearParams;
 }
 
-
