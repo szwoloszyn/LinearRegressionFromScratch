@@ -3,25 +3,34 @@
 
 #include <armadillo>
 
+// TODO parameters reference/copy cleanup
 class LinearRegression
 {
 public:
-    enum ModelMethod {
-        NORMAL_EQ,
-        GRADIENT,
-        UNIDENTIFIED
-    };
+    // enum ModelMethod {
+    //     NORMAL_EQ,
+    //     GRADIENT,
+    //     UNIDENTIFIED
+    // };
 
-    LinearRegression(ModelMethod m = ModelMethod::UNIDENTIFIED);
-    arma::vec solveNormalEquation(arma::mat X, arma::vec y);
-    void fit(arma::mat X, arma::vec y);
+    LinearRegression();
+
+    virtual void fit(arma::mat X, arma::vec y) = 0;
+    virtual arma::vec getFitResults(arma::mat X, arma::vec y) = 0;
     double predict(arma::vec X_pred);
-    arma::vec kFoldCrossValidation();
+    arma::vec kFoldCrossValidation(arma::mat X, arma::vec y, size_t folds = 5);
     void printCoeffs();
-private:
+
+    virtual ~LinearRegression() { }
+protected:
+    void splitFolds(arma::mat X, arma::vec y, size_t k,
+                    std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds);
+
+    template <typename T>
+    T concatFolds(const std::vector<T> folds, size_t excludeIdx);
+
 
     arma::vec linearParams;
-    ModelMethod method;
 };
 
 // custom exception for unfitted model

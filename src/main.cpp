@@ -4,7 +4,7 @@
 #include <ctime>
 #include <vector>
 
-#include "linearregression.h"
+#include "normalequation.h"
 using arma::vec, arma::mat;
 using namespace std;
 
@@ -72,15 +72,29 @@ int main()
 
     // matrix.print(std::cout, "inversedxx");
 
-    LinearRegression testVec{LinearRegression::ModelMethod::NORMAL_EQ};
-    mat X{ 1,2};
-    X = X.t();
-    vec y = {2,4};
-    testVec.fit(X,y);
-    cout << testVec.predict(vec{4});
+    NormalEquation testVec{};
+    // mat X{ 1,2};
+    // X = X.t();
+    // vec y = {2,4};
+    // testVec.fit(X,y);
+    // cout << testVec.predict(vec{4});
 
-    generateTrainingData(X,y);
-    //cout << X;
-    testVec.fit(X,y);
-    testVec.printCoeffs();
+    // generateTrainingData(X,y);
+    // //cout << X;
+    // testVec.fit(X,y);
+    // testVec.printCoeffs();
+
+    mat foldX = {
+        {1,1},
+        {2,2},
+        {3,3},
+        {4,4},
+        {5,5},
+        {6,6},
+    };
+    vec foldy = {
+        1,2,3,4,5,6
+    };
+    testVec.kFoldCrossValidation(foldX, foldy,4);
+
 }
