@@ -12,24 +12,24 @@ LinearRegression::LinearRegression() : linearParams{}
 
 
 
-double LinearRegression::predict(arma::vec X_pred)
+double LinearRegression::predict(const arma::vec& X_pred) const
 {
     // when linearParams.size() == 0 -> throw model not fitted exception
     if (linearParams.size() == 0) {
         throw ModelNotFittedException{"call LinearRegression::fit() method to train model first!"};
     }
-    X_pred = arma::join_vert(arma::vec({1}), X_pred);
-    if (linearParams.size() != X_pred.size()) {
+    arma::vec X_predAug = arma::join_vert(arma::vec({1}), X_pred);
+    if (linearParams.size() != X_predAug.size()) {
         throw FeaturesDiffFromTraining{"data does not fit to last used training set!"};
     }
     double prediction = 0;
     for (auto i = 0; i < linearParams.size(); ++i) {
-        prediction += linearParams[i] * X_pred[i];
+        prediction += linearParams[i] * X_predAug[i];
     }
     return prediction;
 }
 
-arma::vec LinearRegression::kFoldCrossValidation(arma::mat X, arma::vec y, size_t k)
+arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma::vec& y, const size_t k) const
 {
     std::vector<mat> X_folds{k};
     std::vector<vec> y_folds{k};
@@ -54,12 +54,13 @@ arma::vec LinearRegression::kFoldCrossValidation(arma::mat X, arma::vec y, size_
     return vec{};
 }
 
-void LinearRegression::printCoeffs()
+void LinearRegression::printCoeffs() const
 {
     std::cout << "predicted coefficients: " << linearParams;
 }
 
-void LinearRegression::splitFolds(arma::mat X, arma::vec y, size_t k, std::vector<arma::mat> &X_folds, std::vector<arma::vec> &y_folds)
+void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const size_t k,
+                                  std::vector<arma::mat> &X_folds, std::vector<arma::vec> &y_folds) const
 {
     arma::uvec indices = arma::randperm(X.n_rows);
     arma::mat X_shuffled = X.rows(indices);
@@ -84,7 +85,7 @@ void LinearRegression::splitFolds(arma::mat X, arma::vec y, size_t k, std::vecto
 }
 
 template <typename T>
-T LinearRegression::concatFolds(const std::vector<T> folds, size_t excludeIdx)
+T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const
 {
     if (excludeIdx >= folds.size()) {
         throw std::invalid_argument{"index greater than array size"};

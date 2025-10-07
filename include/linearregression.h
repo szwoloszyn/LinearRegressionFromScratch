@@ -15,19 +15,19 @@ public:
 
     LinearRegression();
 
-    virtual void fit(arma::mat X, arma::vec y) = 0;
-    virtual arma::vec getFitResults(arma::mat X, arma::vec y) = 0;
-    double predict(arma::vec X_pred);
-    arma::vec kFoldCrossValidation(arma::mat X, arma::vec y, size_t folds = 5);
-    void printCoeffs();
+    virtual void fit(const arma::mat& X, const arma::vec& y) = 0;
+    virtual arma::vec getFitResults(arma::mat X, arma::vec y) const = 0;
+    double predict(const arma::vec& X_pred) const;
+    arma::vec kFoldCrossValidation(const arma::mat& X, const arma::vec& y, const size_t k = 5) const;
+    void printCoeffs() const;
 
     virtual ~LinearRegression() { }
 protected:
-    void splitFolds(arma::mat X, arma::vec y, size_t k,
-                    std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds);
+    void splitFolds(const arma::mat& X, const arma::vec& y, const size_t k,
+                    std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds) const;
 
     template <typename T>
-    T concatFolds(const std::vector<T> folds, size_t excludeIdx);
+    T concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const;
 
 
     arma::vec linearParams;

@@ -7,9 +7,9 @@ class NormalEquation : public LinearRegression
 {
 public:
     NormalEquation();
-    void fit(arma::mat X, arma::vec y) override;
-    arma::vec getFitResults(arma::mat X, arma::vec y) override { return arma::vec{}; }
-    arma::vec solveNormalEquation(arma::mat X, arma::vec y);
+    void fit(const arma::mat& X, const arma::vec& y) override;
+    arma::vec getFitResults(arma::mat X, arma::vec y) const override { return arma::vec{}; }
+    arma::vec solveNormalEquation(const arma::mat& X, const arma::vec& y) const;
     //arma::vec kFoldCrossValidation(arma::mat X, arma::vec y, size_t folds = 5) override;
 };
 
