@@ -26,7 +26,7 @@ void generateTrainingData(mat& X, vec& y)
     vector<double> labelValues;
     labelValues.reserve(NUM_OF_EXAMPLES);
     for (auto i = 0; i < NUM_OF_EXAMPLES; ++i) {
-        double noise = rand() % 901;
+        double noise = rand() % 301;
         // simulating random +/- noise
         if ((int(noise) % 10) % 2) {
             noise = -noise;
@@ -82,6 +82,7 @@ int main()
     generateTrainingData(X,y);
     //cout << X;
     testVec.fit(X,y);
+    testVec.RMSEReport(X.rows(1,10),y.subvec(1,10));
     //AtestVec.printCoeffs();
 
     mat foldX = {
@@ -99,7 +100,7 @@ int main()
     testVec.fit(foldX,foldy);
     //cout << "\n-> " << testVec.predict(foldX) << "\n";
     auto vec = testVec.kFoldCrossValidation(X,y,5);
-    cout << "\nerrors:\n";
+    cout << "\nKFold Cross Validation with 5 folds RMSEs: \n";
     for (auto x : vec) {
         std::cout << x << ", ";
     }
