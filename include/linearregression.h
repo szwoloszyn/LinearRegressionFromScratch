@@ -3,33 +3,37 @@
 
 #include <armadillo>
 
-// TODO parameters reference/copy cleanup
+
+#ifdef UNIT_TEST
+#define TESTABLE public
+#else
+#define TESTABLE protected
+#endif
+
 class LinearRegression
 {
 public:
-    // enum ModelMethod {
-    //     NORMAL_EQ,
-    //     GRADIENT,
-    //     UNIDENTIFIED
-    // };
-
     LinearRegression();
 
-    virtual void fit(arma::mat X, arma::vec y) = 0;
-    virtual arma::vec getFitResults(arma::mat X, arma::vec y) = 0;
-    double predict(arma::vec X_pred);
-    arma::vec kFoldCrossValidation(arma::mat X, arma::vec y, size_t folds = 5);
-    void printCoeffs();
+    virtual void fit(const arma::mat& X, const arma::vec& y) = 0;
+    virtual arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const = 0;
+    double predictSingleValue(const arma::vec& X_pred, const arma::vec& params = arma::vec{}) const;
+    arma::vec predict(const arma::mat& X_pred, const arma::vec& params = arma::vec{}) const;
+    std::vector<double> kFoldCrossValidation(const arma::mat& X, const arma::vec& y,
+                                   const size_t k = 5) const;
+    arma::vec getCoeffs() const;
 
     virtual ~LinearRegression() { }
-protected:
-    void splitFolds(arma::mat X, arma::vec y, size_t k,
-                    std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds);
+TESTABLE:
+    void splitFolds(const arma::mat& X, const arma::vec& y, const size_t k,
+                    std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds) const;
 
     template <typename T>
-    T concatFolds(const std::vector<T> folds, size_t excludeIdx);
+    T concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const;
 
+    double RMSE(const arma::vec& actual, const arma::vec& predicted) const;
 
+protected:
     arma::vec linearParams;
 };
 

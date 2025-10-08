@@ -73,28 +73,42 @@ int main()
     // matrix.print(std::cout, "inversedxx");
 
     NormalEquation testVec{};
-    // mat X{ 1,2};
-    // X = X.t();
-    // vec y = {2,4};
-    // testVec.fit(X,y);
-    // cout << testVec.predict(vec{4});
+    mat X{ 1,2};
+    X = X.t();
+    vec y = {2,4};
+    testVec.fit(X,y);
+    cout << testVec.predictSingleValue(vec{4});
 
-    // generateTrainingData(X,y);
-    // //cout << X;
-    // testVec.fit(X,y);
-    // testVec.printCoeffs();
+    generateTrainingData(X,y);
+    //cout << X;
+    testVec.fit(X,y);
+    //AtestVec.printCoeffs();
 
     mat foldX = {
         {1,1},
         {2,2},
         {3,3},
         {4,4},
-        {5,5},
+        {5,5.1},
         {6,6},
     };
+    //foldX = (mat{1,2,3,4,5,6}).t();
     vec foldy = {
         1,2,3,4,5,6
     };
-    testVec.kFoldCrossValidation(foldX, foldy,4);
+    testVec.fit(foldX,foldy);
+    //cout << "\n-> " << testVec.predict(foldX) << "\n";
+    auto vec = testVec.kFoldCrossValidation(X,y,5);
+    cout << "\nerrors:\n";
+    for (auto x : vec) {
+        std::cout << x << ", ";
+    }
+
+    // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
+    // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};
+    // std::vector<arma::mat> X_folds;
+    // std::vector<arma::vec> y_folds;
+    // newModel.splitFolds(XCVExample, yCVExample, 4, X_folds, y_folds);
+    // cout << X_folds[1];
 
 }
