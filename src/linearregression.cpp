@@ -127,6 +127,10 @@ T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t exclud
     return finalMat;
 }
 
+std::vector<double> LinearRegression::RMSEReport(const arma::mat &X_test, const arma::vec &y_test) const
+{
+    return {};
+}
 
 double LinearRegression::RMSE(const arma::vec &actual, const arma::vec &predicted) const
 {
