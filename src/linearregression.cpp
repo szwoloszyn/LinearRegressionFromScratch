@@ -31,7 +31,6 @@ double LinearRegression::predictSingleValue(const arma::vec& X_pred, const vec& 
 
 arma::vec LinearRegression::predict(const arma::mat &X_pred, const arma::vec& params) const
 {
-    // TODO TEST IT
     auto theta = params;
     if (params.n_elem == 0) {
         theta = this->linearParams;

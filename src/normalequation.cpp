@@ -11,6 +11,7 @@ vec NormalEquation::solveNormalEquation(const arma::mat& X, const arma::vec& y) 
     // normal equation: Theta = (X.t * X)^-1 * (X.t * y)
     auto multipliedX = X_aug.t() * X_aug;
     if (det(multipliedX) == 0) {
+        // TODO to be updated
         throw std::invalid_argument{"there is the same feature twice in dataset! Will cover this case in further development. For now you need to manually delete one of these features. (There is no learning gain from it)!"};
     }
     return multipliedX.i() * (X_aug.t() * y);
