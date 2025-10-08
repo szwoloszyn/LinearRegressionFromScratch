@@ -98,8 +98,11 @@ int main()
     };
     testVec.fit(foldX,foldy);
     //cout << "\n-> " << testVec.predict(foldX) << "\n";
-    testVec.kFoldCrossValidation(foldX, foldy,5);
-    // FIXME it crashes the process !!
+    auto vec = testVec.kFoldCrossValidation(X,y,5);
+    cout << "\nerrors:\n";
+    for (auto x : vec) {
+        std::cout << x << ", ";
+    }
 
     // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
     // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};

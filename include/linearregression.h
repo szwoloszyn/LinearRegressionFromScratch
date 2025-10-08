@@ -19,7 +19,7 @@ public:
     virtual arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const = 0;
     double predictSingleValue(const arma::vec& X_pred, const arma::vec& params = arma::vec{}) const;
     arma::vec predict(const arma::mat& X_pred, const arma::vec& params = arma::vec{}) const;
-    arma::vec kFoldCrossValidation(const arma::mat& X, const arma::vec& y,
+    std::vector<double> kFoldCrossValidation(const arma::mat& X, const arma::vec& y,
                                    const size_t k = 5) const;
     arma::vec getCoeffs() const;
 

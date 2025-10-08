@@ -49,10 +49,22 @@ protected:
 TEST_F(LinRegTest, predictSingleValueWorks)
 {
     for (double i = -53.2; i < 16; i += 0.198) {
-        double predictedTrivialOutcome = 2*i;
-        double predictedOneFeatureOutcome = 2*i + 1;
-        ASSERT_EQ(predictedTrivialOutcome, trivialTrained.predictSingleValue({i}));
-        ASSERT_EQ(predictedOneFeatureOutcome, oneFeatureTrained.predictSingleValue({i}));
+        double expectedTrivialOutcome = 2*i;
+        double expectedOneFeatureOutcome = 2*i + 1;
+        ASSERT_EQ(expectedTrivialOutcome, trivialTrained.predictSingleValue({i}));
+        ASSERT_EQ(expectedOneFeatureOutcome, oneFeatureTrained.predictSingleValue({i}));
+        ASSERT_EQ(expectedTrivialOutcome, oneFeatureTrained.predictSingleValue({i},arma::vec{0,2}));
+    }
+}
+
+TEST_F(LinRegTest, predictWorks)
+{
+    mat data = (mat{1,2,3,4,5}).t();
+    vec expectedOutput{2,4,6,8,10};
+    vec output = trivialTrained.predict(data);
+    ASSERT_EQ(output.size(), expectedOutput.size());
+    for (auto i = 0; i < output.size(); ++i) {
+        ASSERT_EQ(output[i], expectedOutput[i]);
     }
 }
 

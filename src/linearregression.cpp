@@ -42,8 +42,7 @@ arma::vec LinearRegression::predict(const arma::mat &X_pred, const arma::vec& pa
     }
     return predictions;
 }
-
-arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma::vec& y, const size_t k) const
+std::vector<double> LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma::vec& y, const size_t k) const
 {
     if (k > X.n_rows) {
         throw std::invalid_argument{"desired number of "
@@ -55,7 +54,7 @@ arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma:
     std::vector<mat> X_folds{k};
     std::vector<vec> y_folds{k};
     this->splitFolds(X,y,k,X_folds, y_folds);
-
+    std::vector<double> RMSEValues;
     for (auto i = 0; i < k; ++i) {
         auto X_train = concatFolds(X_folds,i);
         auto y_train = concatFolds(y_folds,i);
@@ -72,12 +71,9 @@ arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma:
         }
         auto predictions = predict(X_test,thetas);
         //std::cout << "y test: " << y_te
-        std::cout << "\nRMSE: " << RMSE(y_test,predictions);
+        RMSEValues.push_back(RMSE(y_test,predictions));
     }
-
-    // NOTE I will come back here when I will have loss function ready to go
-
-    return vec{};
+    return RMSEValues;
 }
 
 arma::vec LinearRegression::getCoeffs() const
