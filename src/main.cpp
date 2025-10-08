@@ -97,15 +97,6 @@ int main()
     };
     testVec.kFoldCrossValidation(foldX, foldy,4);
 
-    mat XOneFeature = (mat{0,1,2,3,4,5}).t();
-    vec yOneFeature = {1,3,5,7,9,11};
-    cout << "\n======\n";
-    auto xD = testVec.solveNormalEquation(XOneFeature, yOneFeature);
-    cout << xD.size() << "|\n";
-    NormalEquation newModel;
-    newModel.fit(XOneFeature,yOneFeature);
-    cout << newModel.predict({-53.2});
-
     // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
     // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};
     // std::vector<arma::mat> X_folds;

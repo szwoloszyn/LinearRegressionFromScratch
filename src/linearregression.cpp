@@ -8,13 +8,8 @@ LinearRegression::LinearRegression() : linearParams{}
 }
 
 
-
-
-
-
 double LinearRegression::predict(const arma::vec& X_pred) const
 {
-    // when linearParams.size() == 0 -> throw model not fitted exception
     if (linearParams.size() == 0) {
         throw ModelNotFittedException{"call LinearRegression::fit() method to train model first!"};
     }
@@ -56,7 +51,7 @@ arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma:
         auto X_test = X_folds[i];
         auto y_test = y_folds[i];
     }
-    // TODO I will come back here when I will have loss function ready to go
+    // NOTE I will come back here when I will have loss function ready to go
 
     return vec{};
 }
@@ -80,14 +75,10 @@ void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const 
     size_t foldSize = X_shuffled.n_rows / k;
     for (auto i = 0; i < k; ++i) {
         X_folds[i] = X_shuffled.rows(foldSize*i,foldSize*(i+1) - 1);
-        // WARNING IT MIGHT BE WRONG !!
         y_folds[i] = y_shuffled.rows(foldSize*i,foldSize*(i+1) - 1);
     }
 
     if (X_shuffled.n_rows > foldSize*k) {
-        std::cout << k*foldSize << ", " << X_shuffled.n_rows - 1 << '\n';
-        //std::cout << X_shuffled.rows(k*foldSize, X_shuffled.size() - 1);
-        //std::cout << "#" << arma::join_cols(X_folds[X_folds.size() - 1], X_shuffled.rows(k*foldSize, X_shuffled.size() - 1)) << "#";
         X_folds[X_folds.size() - 1] = arma::join_cols(X_folds[X_folds.size() - 1],
                                                       X_shuffled.rows(k*foldSize, X_shuffled.n_rows - 1));
         y_folds[y_folds.size() - 1] = arma::join_cols(y_folds[y_folds.size() - 1],
