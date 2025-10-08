@@ -79,3 +79,26 @@ TEST_F(LinRegTest, splitFoldsWorks)
     ASSERT_EQ(y_folds[0].n_elem,2);
     ASSERT_EQ(y_folds[3].n_elem,4);
 }
+
+TEST_F(LinRegTest, concatFoldsWorks)
+{
+    std::vector<arma::vec> folds = { {1,2}, {3,4}, {5,6} };
+    const size_t excludeIdx = 1;
+    auto concatedFolds = trivialTrained.concatFolds(folds,excludeIdx);
+
+    vec excpectedConcatedFolds = {1,2,5,6};
+    ASSERT_EQ(concatedFolds.size(), excpectedConcatedFolds.size());
+    for (auto i = 0; i < excpectedConcatedFolds.size(); ++i) {
+        ASSERT_EQ(concatedFolds[i], excpectedConcatedFolds[i]);
+    }
+}
+
+TEST_F(LinRegTest, CrossValWorks)
+{
+    // TODO when cv finished
+}
+
+TEST_F(LinRegTest, RmseWorks)
+{
+    // TODO after writing RMSE
+}
