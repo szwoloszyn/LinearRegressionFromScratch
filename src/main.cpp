@@ -77,7 +77,7 @@ int main()
     X = X.t();
     vec y = {2,4};
     testVec.fit(X,y);
-    cout << testVec.predict(vec{4});
+    cout << testVec.predictSingleValue(vec{4});
 
     generateTrainingData(X,y);
     //cout << X;
@@ -89,13 +89,17 @@ int main()
         {2,2},
         {3,3},
         {4,4},
-        {5,5},
+        {5,5.1},
         {6,6},
     };
+    //foldX = (mat{1,2,3,4,5,6}).t();
     vec foldy = {
         1,2,3,4,5,6
     };
-    testVec.kFoldCrossValidation(foldX, foldy,4);
+    testVec.fit(foldX,foldy);
+    //cout << "\n-> " << testVec.predict(foldX) << "\n";
+    testVec.kFoldCrossValidation(foldX, foldy,5);
+    // FIXME it crashes the process !!
 
     // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
     // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};

@@ -46,13 +46,13 @@ protected:
     }
 };
 
-TEST_F(LinRegTest, predictWorks)
+TEST_F(LinRegTest, predictSingleValueWorks)
 {
     for (double i = -53.2; i < 16; i += 0.198) {
         double predictedTrivialOutcome = 2*i;
         double predictedOneFeatureOutcome = 2*i + 1;
-        ASSERT_EQ(predictedTrivialOutcome, trivialTrained.predict({i}));
-        ASSERT_EQ(predictedOneFeatureOutcome, oneFeatureTrained.predict({i}));
+        ASSERT_EQ(predictedTrivialOutcome, trivialTrained.predictSingleValue({i}));
+        ASSERT_EQ(predictedOneFeatureOutcome, oneFeatureTrained.predictSingleValue({i}));
     }
 }
 

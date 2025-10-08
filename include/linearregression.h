@@ -17,7 +17,7 @@ public:
 
     virtual void fit(const arma::mat& X, const arma::vec& y) = 0;
     virtual arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const = 0;
-    double predict(const arma::vec& X_pred, const arma::vec& params = arma::vec{}) const;
+    double predictSingleValue(const arma::vec& X_pred, const arma::vec& params = arma::vec{}) const;
     arma::vec predict(const arma::mat& X_pred, const arma::vec& params = arma::vec{}) const;
     arma::vec kFoldCrossValidation(const arma::mat& X, const arma::vec& y,
                                    const size_t k = 5) const;

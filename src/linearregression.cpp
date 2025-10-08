@@ -9,23 +9,22 @@ LinearRegression::LinearRegression() : linearParams{}
 }
 
 
-double LinearRegression::predict(const arma::vec& X_pred, const vec& params) const
+double LinearRegression::predictSingleValue(const arma::vec& X_pred, const vec& params) const
 {
     auto theta = params;
     if (params.n_elem == 0) {
         theta = this->linearParams;
     }
-
-    if (linearParams.size() == 0) {
+    if (theta.size() == 0) {
         throw ModelNotFittedException{"call LinearRegression::fit() method to train model first!"};
     }
     arma::vec X_predAug = arma::join_vert(arma::vec({1}), X_pred);
-    if (linearParams.size() != X_predAug.size()) {
+    if (theta.size() != X_predAug.size()) {
         throw FeaturesDiffFromTraining{"data does not fit to last used training set!"};
     }
     double prediction = 0;
-    for (auto i = 0; i < linearParams.size(); ++i) {
-        prediction += linearParams[i] * X_predAug[i];
+    for (auto i = 0; i < theta.size(); ++i) {
+        prediction += theta[i] * X_predAug[i];
     }
     return prediction;
 }
@@ -39,8 +38,9 @@ arma::vec LinearRegression::predict(const arma::mat &X_pred, const arma::vec& pa
     }
     vec predictions(X_pred.n_rows);
     for (auto i = 0; i < X_pred.n_rows; ++i) {
-        predictions(i) = predict(vec((X_pred.row(i)).t()));
+        predictions(i) = predictSingleValue((X_pred.row(i)).t(), theta);
     }
+    return predictions;
 }
 
 arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma::vec& y, const size_t k) const
@@ -56,21 +56,23 @@ arma::vec LinearRegression::kFoldCrossValidation(const arma::mat& X, const arma:
     std::vector<vec> y_folds{k};
     this->splitFolds(X,y,k,X_folds, y_folds);
 
-    // std::cout << "X FOLDS: \n";
-    // for (auto i = 0; i < k; ++i) {
-    //     std::cout << i+1 << ". fold: " << X_folds[i] << "\n";
-    // }
-    // std::cout << "\nY FOLDS: \n";
-    // for (auto i = 0; i < k; ++i) {
-    //     std::cout << i+1 << ". fold: " << y_folds[i] << "\n";
-    // }
     for (auto i = 0; i < k; ++i) {
         auto X_train = concatFolds(X_folds,i);
         auto y_train = concatFolds(y_folds,i);
         auto X_test = X_folds[i];
         auto y_test = y_folds[i];
-        vec thetas = getFitResults(X_train, y_train);
-
+        vec thetas;
+        try {
+            thetas = getFitResults(X_train, y_train);
+        }
+        catch(std::invalid_argument) {
+            std::cerr << "data splitted in lineary dependent"
+                         "features. Skipping this split.";
+                continue;
+        }
+        auto predictions = predict(X_test,thetas);
+        //std::cout << "y test: " << y_te
+        std::cout << "\nRMSE: " << RMSE(y_test,predictions);
     }
 
     // NOTE I will come back here when I will have loss function ready to go
