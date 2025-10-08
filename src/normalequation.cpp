@@ -17,3 +17,8 @@ void NormalEquation::fit(const arma::mat& X, const arma::vec& y)
     this->linearParams = this->solveNormalEquation(X,y);
 }
 
+arma::vec NormalEquation::getFitResults(const arma::mat& X, const arma::vec& y) const
+{
+    return solveNormalEquation(X,y);
+}
+

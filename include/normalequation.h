@@ -9,9 +9,7 @@ public:
     NormalEquation();
     void fit(const arma::mat& X, const arma::vec& y) override;
 TESTABLE:
-    // NOTE probably needed for KFold ?
-        // implement when needed
-    arma::vec getFitResults(arma::mat X, arma::vec y) const override { return arma::vec{}; }
+    arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const override;
     arma::vec solveNormalEquation(const arma::mat& X, const arma::vec& y) const;
 };
 

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <armadillo>
+#include <cmath>
 #include "normalequation.h"
 
 using arma::mat, arma::vec;
@@ -100,5 +101,19 @@ TEST_F(LinRegTest, CrossValWorks)
 
 TEST_F(LinRegTest, RmseWorks)
 {
-    // TODO after writing RMSE
+    vec actual = {100,200,300};
+    vec predicted = {101,199,275};
+    double RMSE = trivialTrained.RMSE(actual, predicted);
+    double predictedRMSE = sqrt(209);
+
+    ASSERT_EQ(RMSE, predictedRMSE);
+
+    predicted = {1,2};
+
+    EXPECT_THROW(
+        trivialTrained.RMSE(actual, predicted),
+        std::logic_error
+    );
+
+
 }
