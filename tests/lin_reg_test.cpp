@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <armadillo>
 #include <cmath>
+#include <algorithm>
 #include "normalequation.h"
 
 using arma::mat, arma::vec;
@@ -10,6 +11,7 @@ class LinRegTest : public ::testing::Test
 protected:
     NormalEquation trivialTrained;
     NormalEquation oneFeatureTrained;
+    NormalEquation twoFeatureTrained;
     // y = 2x
     mat XTrivial;
     vec yTrivial;
@@ -35,11 +37,12 @@ protected:
         XOneFeature = (mat{0,1,2,3,4,5}).t();
         yOneFeature = {1,3,5,7,9,11};
 
-        XTwoFeature = (mat{ {1,5,6}, {6,9,10} }).t();
+        XTwoFeature = (mat{ {1,5,6}, {6,8,11} }).t();
         yTwoFeature = {-10,8,20};
 
         trivialTrained.fit(XTrivial, yTrivial);
         oneFeatureTrained.fit(XOneFeature, yOneFeature);
+        twoFeatureTrained.fit(XTwoFeature,yTwoFeature);
 
         XCVExample =( mat{0,1,2,3,4,5,6,7,8,9}).t();
         yCVExample = {0,1,2,3,4,5,6,7,8,9};
@@ -108,7 +111,43 @@ TEST_F(LinRegTest, concatFoldsWorks)
 
 TEST_F(LinRegTest, CrossValWorks)
 {
-    // TODO when cv finished
+    auto cvErrors = oneFeatureTrained.kFoldCrossValidation(XOneFeature, yOneFeature,4);
+    ASSERT_EQ(cvErrors.size(), 4);
+    for (auto x : cvErrors) {
+        ASSERT_EQ(x, 0);
+    }
+    auto RMSEs = twoFeatureTrained.kFoldCrossValidation(XTwoFeature,yTwoFeature,3);
+    std::vector<double> expectedRMSEs;
+    mat X_train = { {1,6}, {5,8}};
+    mat X_test = (mat{6,11});
+    vec y_train = {-10,8};
+    vec y_test = {20};
+    twoFeatureTrained.fit(X_train,y_train);
+    auto prediction = twoFeatureTrained.predict(X_test);
+    expectedRMSEs.push_back(twoFeatureTrained.RMSE(y_test,prediction));
+
+    X_train = { {1,6}, {6,11}};
+    X_test = (mat{5,8});
+    y_train = {-10,20};
+    y_test = {8};
+    twoFeatureTrained.fit(X_train,y_train);
+    prediction = twoFeatureTrained.predict(X_test);
+    expectedRMSEs.push_back(twoFeatureTrained.RMSE(y_test,prediction));
+
+    X_train = { {5,8}, {6,11}};
+    X_test = (mat{1,6});
+    y_train = {8,20};
+    y_test = {-10};
+    twoFeatureTrained.fit(X_train,y_train);
+    prediction = twoFeatureTrained.predict(X_test);
+    expectedRMSEs.push_back(twoFeatureTrained.RMSE(y_test,prediction));
+    // std::cout << "LEMMESE:\n";
+    // for (auto x : expectedRMSEs) {
+    //     std::cout << x << "; ";
+    // }
+    std::sort(RMSEs.begin(), RMSEs.end());
+    std::sort(expectedRMSEs.begin(), expectedRMSEs.end());
+    ASSERT_EQ(RMSEs, expectedRMSEs);
 }
 
 TEST_F(LinRegTest, RmseWorks)

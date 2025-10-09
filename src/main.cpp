@@ -99,9 +99,11 @@ int main()
     };
     testVec.fit(foldX,foldy);
     //cout << "\n-> " << testVec.predict(foldX) << "\n";
-    auto vec = testVec.kFoldCrossValidation(X,y,5);
+
+    auto vect = testVec.kFoldCrossValidation(X,y,5);
+
     cout << "\nKFold Cross Validation with 5 folds RMSEs: \n";
-    for (auto x : vec) {
+    for (auto x : vect) {
         std::cout << x << ", ";
     }
 
@@ -111,5 +113,12 @@ int main()
     // std::vector<arma::vec> y_folds;
     // newModel.splitFolds(XCVExample, yCVExample, 4, X_folds, y_folds);
     // cout << X_folds[1];
+
+    mat XTwoFeature = (mat{ {1,5,6}, {6,9,10} }).t();
+    vec yTwoFeature = {-10,8,20};
+
+    mat Xtest_a = { {1,6}, {5,9}};
+    cout << "\ntt: \n" << Xtest_a;
+
 
 }
