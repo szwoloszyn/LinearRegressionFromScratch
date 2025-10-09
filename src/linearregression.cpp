@@ -127,6 +127,17 @@ T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t exclud
     return finalMat;
 }
 
+void LinearRegression::RMSEReport(const arma::mat &X_test, const arma::vec &y_test) const
+{
+    auto y_pred = predict(X_test);
+    std::cout << "\nMean RMSE for whole testing set: \n";
+    std::cout << RMSE(y_test,y_pred) << "\n";
+
+    std::cout << "Mean RMSE for each entry: \n";
+    for (auto i = 0; i < y_test.n_elem; ++i) {
+        std::cout << i+1 << ". " << RMSE(vec{y_test(i)},vec{y_pred(i)}) << '\n';
+    }
+}
 
 double LinearRegression::RMSE(const arma::vec &actual, const arma::vec &predicted) const
 {
