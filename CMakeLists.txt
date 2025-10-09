@@ -30,7 +30,8 @@ target_include_directories(sourceCode PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(sourceCode PUBLIC ${ARMADILLO_LIBRARIES})
 
 
-add_executable(LinearRegressionFromScratch src/main.cpp)
+add_executable(LinearRegressionFromScratch src/main.cpp
+)
 target_link_libraries(LinearRegressionFromScratch PRIVATE sourceCode)
 
 enable_testing()
