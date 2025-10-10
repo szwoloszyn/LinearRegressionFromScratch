@@ -52,4 +52,11 @@ public:
         : std::runtime_error(msg) {}
 };
 
+class LabelsDontFitLearningData : public std::runtime_error
+{
+public:
+    explicit LabelsDontFitLearningData(const std::string& msg)
+        : std::runtime_error(msg) {}
+};
+
 #endif // LINEARREGRESSION_H

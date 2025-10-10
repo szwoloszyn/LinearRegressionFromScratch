@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "normalequation.h"
+#include "batchgradientdescent.h"
 using arma::vec, arma::mat;
 using namespace std;
 
@@ -26,7 +27,7 @@ void generateTrainingData(mat& X, vec& y)
     vector<double> labelValues;
     labelValues.reserve(NUM_OF_EXAMPLES);
     for (auto i = 0; i < NUM_OF_EXAMPLES; ++i) {
-        double noise = rand() % 301;
+        double noise = rand() % 101;
         // simulating random +/- noise
         if ((int(noise) % 10) % 2) {
             noise = -noise;
@@ -75,7 +76,7 @@ int main()
     NormalEquation testVec{};
     mat X{ 1,2};
     X = X.t();
-    vec y = {2,4};
+    vec y = {2,3};
     testVec.fit(X,y);
     cout << testVec.predictSingleValue(vec{4});
 
@@ -120,5 +121,16 @@ int main()
     mat Xtest_a = { {1,6}, {5,9}};
     cout << "\ntt: \n" << Xtest_a;
 
-
+    generateTrainingData(X,y);
+    cout << y;
+    BatchGradientDescent grd{0.0001,400};
+    mat Xgrd = { {1,1,2}, {1,2,4}};
+    cout << "rows: " << Xgrd.n_rows;
+    vec ygrd = {2,3};
+    vec tgrd = {1,1,1};
+    //cout << "\n" << grd.calculateGradient(Xgrd,ygrd,tgrd);
+    auto thetas = grd.getFitResults(X,y);
+    testVec.fit(X,y);
+    cout << "\nNormthetas: \n" << testVec.getCoeffs();
+    cout << "\nthetas: \n" << thetas;
 }

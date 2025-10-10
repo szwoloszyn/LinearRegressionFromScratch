@@ -57,6 +57,10 @@ TEST_F(NormEqTest, fitWorks)
     for (auto i = 0; i < expectedThetas.size(); ++i) {
         ASSERT_EQ(thetas[i], expectedThetas[i]);
     }
+    mat X{ 1,2};
+    X = X.t();
+    vec y = {2};
+    EXPECT_THROW(normEqModel.fit(X,y), LabelsDontFitLearningData);
 }
 
 
