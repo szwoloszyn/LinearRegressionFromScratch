@@ -15,8 +15,11 @@ void BatchGradientDescent::fit(const arma::mat &X, const arma::vec &y)
 
 arma::vec BatchGradientDescent::getFitResults(const arma::mat &X, const arma::vec &y) const
 {
-    mat stdX = standardize(X);
-    const mat X_aug = arma::join_horiz(arma::ones<vec>(stdX.n_rows), stdX);
+
+    // FIXME ?? WHAT FIRST AUG OR STANDARDIZATION
+    mat X_aug = arma::join_horiz(arma::ones<vec>(X.n_rows), X);
+    X_aug = standardize(X_aug);
+    std::cout << "STDX: " << X_aug;
     // TODO start with what thetas ?
     vec thetas(X_aug.n_cols);
     thetas.fill(0.1);
@@ -47,6 +50,9 @@ arma::mat BatchGradientDescent::standardize(const arma::mat &X) const
     for (auto i = 0; i < X.n_cols; ++i) {
         double meanX = arma::mean(X.col(i));
         double stdDevX = arma::stddev(X.col(i));
+        if (stdDevX == 0) {
+            stdDevX = 1;
+        }
         // FIXME if stdDevX == 0 -> we get division by 0.
         // TODO check proposed upgrade
         vec column(X.col(i).n_elem);
