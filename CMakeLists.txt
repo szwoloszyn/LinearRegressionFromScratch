@@ -11,7 +11,7 @@ include_directories(
     ${ARMADILLO_INCLUDE_DIRS}
     ${PROJECT_SOURCE_DIR}/include
 )
-
+add_compile_options(-Wall -Wextra -pedantic)
 file(GLOB SRC_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/*.h)
 

@@ -20,7 +20,7 @@ void generateTrainingData(mat& X, vec& y)
     // y = 4x + 3 is expected parametrization
     int a = 4;
     int b = 3;
-    int NUM_OF_EXAMPLES = 50;
+    int NUM_OF_EXAMPLES = 8;
 
     vector<double> featureValues;
     featureValues.reserve(NUM_OF_EXAMPLES);
@@ -32,7 +32,7 @@ void generateTrainingData(mat& X, vec& y)
         if ((int(noise) % 10) % 2) {
             noise = -noise;
         }
-        noise = noise / 100;
+        noise = 0;// noise / 100;
         featureValues.push_back(i);
         labelValues.push_back(a*i + b + noise);
     }
@@ -55,75 +55,80 @@ void generateTrainingData(mat& X, vec& y)
 
 int main()
 {
-    srand(time(0));
-    // cout << "linear regression" << endl;
-    // arma::mat matrix = arma::mat("0.0 0.1 0.2 ; 1.0 1.1 1.2 ; 2.0 2.1 2.2");
+    //srand(time(0));
+    srand(123);
+//     // cout << "linear regression" << endl;
+//     // arma::mat matrix = arma::mat("0.0 0.1 0.2 ; 1.0 1.1 1.2 ; 2.0 2.1 2.2");
 
-    // matrix(1,1) = 0.0123956;
-    // matrix.print(std::cout, "org");
+//     // matrix(1,1) = 0.0123956;
+//     // matrix.print(std::cout, "org");
+// // noise / 100;
+//     // matrix = matrix.t();
+//     // matrix.print(std::cout, "transposed");
+//     // try {
+//     //     matrix = matrix.i();
+//     // }
+//     // catch(...) {
+//     //     cout << "matrix does not have inversion";
+//     // }
 
-    // matrix = matrix.t();
-    // matrix.print(std::cout, "transposed");
-    // try {
-    //     matrix = matrix.i();
-    // }
-    // catch(...) {
-    //     cout << "matrix does not have inversion";
-    // }
+//     // matrix.print(std::cout, "inversedxx");
 
-    // matrix.print(std::cout, "inversedxx");
+//     NormalEquation testVec{};
+//     mat X{ 1,2};
+//     X = X.t();
+//     vec y = {2,3};
+//     testVec.fit(X,y);
+//     cout << testVec.predictSingleValue(vec{4});
+
+//     generateTrainingData(X,y);
+//     //cout << X;
+//     testVec.fit(X,y);
+//     testVec.RMSEReport(X.rows(1,10),y.subvec(1,10));
+//     //AtestVec.printCoeffs();
+
+//     mat foldX = {
+//         {1,1},
+//         {2,2},
+//         {3,3},
+//         {4,4},
+//         {5,5.1},
+//         {6,6},
+//     };
+//     //foldX = (mat{1,2,3,4,5,6}).t();
+//     vec foldy = {
+//         1,2,3,4,5,6
+//     };
+//     testVec.fit(foldX,foldy);
+//     //cout << "\n-> " << testVec.predict(foldX) << "\n";
+
+//     auto vect = testVec.kFoldCrossValidation(X,y,5);
+
+//     cout << "\nKFold Cross Validation with 5 folds RMSEs: \n";
+//     for (auto x : vect) {
+//         std::cout << x << ", ";
+//     }
+
+//     // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
+//     // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};
+//     // std::vector<arma::mat> X_folds;
+//     // std::vector<arma::vec> y_folds;
+//     // newModel.splitFolds(XCVExample, yCVExample, 4, X_folds, y_folds);
+//     // cout << X_folds[1];
+
+//     mat XTwoFeature = (mat{ {1,5,6}, {6,9,10} }).t();
+//     vec yTwoFeature = {-10,8,20};
+
+//     mat Xtest_a = { {1,6}, {5,9}};
+//     //cout << "\ntt: \n" << Xtest_a;
 
     NormalEquation testVec{};
-    mat X{ 1,2};
-    X = X.t();
-    vec y = {2,3};
-    testVec.fit(X,y);
-    cout << testVec.predictSingleValue(vec{4});
-
-    generateTrainingData(X,y);
-    //cout << X;
-    testVec.fit(X,y);
-    testVec.RMSEReport(X.rows(1,10),y.subvec(1,10));
-    //AtestVec.printCoeffs();
-
-    mat foldX = {
-        {1,1},
-        {2,2},
-        {3,3},
-        {4,4},
-        {5,5.1},
-        {6,6},
-    };
-    //foldX = (mat{1,2,3,4,5,6}).t();
-    vec foldy = {
-        1,2,3,4,5,6
-    };
-    testVec.fit(foldX,foldy);
-    //cout << "\n-> " << testVec.predict(foldX) << "\n";
-
-    auto vect = testVec.kFoldCrossValidation(X,y,5);
-
-    cout << "\nKFold Cross Validation with 5 folds RMSEs: \n";
-    for (auto x : vect) {
-        std::cout << x << ", ";
-    }
-
-    // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
-    // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};
-    // std::vector<arma::mat> X_folds;
-    // std::vector<arma::vec> y_folds;
-    // newModel.splitFolds(XCVExample, yCVExample, 4, X_folds, y_folds);
-    // cout << X_folds[1];
-
-    mat XTwoFeature = (mat{ {1,5,6}, {6,9,10} }).t();
-    vec yTwoFeature = {-10,8,20};
-
-    mat Xtest_a = { {1,6}, {5,9}};
-    //cout << "\ntt: \n" << Xtest_a;
-
-    generateTrainingData(X,y);
+    mat X;
+    vec y;
     //cout << y;
-    BatchGradientDescent grd{0.001,1000};
+    BatchGradientDescent grd{0.01,900};
+    generateTrainingData(X,y);
+
     mat Xgrd = { {1,1,2}, {1,2,4}};
     //cout << "rows: " << Xgrd.n_rows;
     vec ygrd = {2,3};
