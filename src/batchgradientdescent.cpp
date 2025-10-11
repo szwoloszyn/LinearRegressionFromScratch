@@ -21,49 +21,48 @@ arma::vec BatchGradientDescent::getFitResults(const arma::mat &X, const arma::ve
     mat stdX = standardize(X);
 
     mat X_aug = arma::join_horiz(arma::ones<vec>(stdX.n_rows), stdX);
-    std::cout << "X_aug: " << X_aug << std::endl;
     // TODO start with what thetas ?
     vec theta(X_aug.n_cols);
     theta.fill(0.1);
-    // thetas(0)=3.1; //b
-    // thetas(1)=4.1; //a
-    // learning loop
-    std::cout << "-----\n";
-    std::cout << "[";
-    for (auto i = 0; i < theta.size(); ++i) {
-        std::cout << "theta: " << theta(i) << ", ";
-    }
-    std::cout << "],\n";
-    for (auto epoch = 0; epoch < nEpochs; ++epoch) {
+
+    // ****************
+        std::cout << "-----\n";
+        std::cout << "[";
+        for (size_t i = 0; i < theta.size(); ++i) {
+            std::cout << "theta: " << theta(i) << ", ";
+        }
+        std::cout << "],\n";
+    // ****************
+
+    for (size_t epoch = 0; epoch < nEpochs; ++epoch) {
         vec grad = calculateGradient(X_aug,y,theta);
 
         theta = theta - (learningRate * grad);
 
         //print every 10th epoch
-        if (epoch % 100) {
-            continue;
-        }
-        std::cout << "[";
-        for (auto i = 0; i < theta.size(); ++i) {
-            std::cout << "grad: " << grad(i) << ", ";
-        }
-        std::cout << "],\n";
-        std::cout << "[";
-        for (auto i = 0; i < theta.size(); ++i) {
-            std::cout << "theta: " << theta(i) << ", ";
-        }
-        std::cout << "],\n";
-
+        // ***************
+            if (epoch % 2) {
+                continue;
+            }
+            // std::cout << "[";
+            // for (size_t i = 0; i < theta.size(); ++i) {
+            //     std::cout << "grad: " << grad(i) << ", ";
+            // }
+            // std::cout << "],\n";
+            std::cout << "[";
+            for (size_t i = 0; i < theta.size(); ++i) {
+                std::cout /*<< "theta: " */<< theta(i) << ", ";
+            }
+            std::cout << "],\n";
+        // ***************
     }
     return rescaleTheta(means, stddevs, theta);
-    //std::cout << "\nI have finished with gradient: " << lastGrad;
-    //return thetas;
 }
 
 arma::vec BatchGradientDescent::getMeans(const arma::mat &X) const
 {
     vec means(X.n_cols);
-    for (auto i = 0; i < X.n_cols; ++i) {
+    for (size_t i = 0; i < X.n_cols; ++i) {
         means(i) = arma::mean(X.col(i));
     }
     return means;
@@ -72,7 +71,7 @@ arma::vec BatchGradientDescent::getMeans(const arma::mat &X) const
 arma::vec BatchGradientDescent::getStdDevs(const arma::mat &X) const
 {
     vec devs(X.n_cols);
-    for (auto i = 0; i < X.n_cols; ++i) {
+    for (size_t i = 0; i < X.n_cols; ++i) {
         devs(i) = arma::stddev(X.col(i));
     }
     return devs;
@@ -81,22 +80,19 @@ arma::vec BatchGradientDescent::getStdDevs(const arma::mat &X) const
 arma::mat BatchGradientDescent::standardize(const arma::mat &X) const
 {
     mat standardizedX;
-    for (auto i = 0; i < X.n_cols; ++i) {
+    for (size_t i = 0; i < X.n_cols; ++i) {
         double meanX = arma::mean(X.col(i));
         double stdDevX = arma::stddev(X.col(i));
         if (stdDevX == 0) {
             stdDevX = 1;
         }
-        // FIXME if stdDevX == 0 -> we get division by 0.
-        // TODO check proposed upgrade
         vec column(X.col(i).n_elem);
-        for (auto idx = 0; idx < column.size(); ++idx) {
+        for (size_t idx = 0; idx < column.size(); ++idx) {
             double value = X.col(i)(idx);
             column(idx) = (value - meanX) / stdDevX;
         }
         standardizedX = arma::join_horiz(standardizedX, column);
     }
-    std::cout << "\nDIMS: " << standardizedX.n_rows << " " << standardizedX.n_cols << "!!!\n";
     return standardizedX;
 }
 
@@ -112,8 +108,8 @@ arma::vec BatchGradientDescent::calculateGradient(const arma::mat &X, const arma
     if (thetas.n_elem != X.n_cols) {
         throw std::invalid_argument{"there are more/less thetas than labels. Critical error."};
     }
+
     double param = 2.0 / double(y.n_elem);
-    //std::cout << "$" << param              << "$";
     vec gradient = param * (X.t() * (X*thetas - y));
     return gradient;
 }
@@ -122,11 +118,11 @@ arma::vec BatchGradientDescent::rescaleTheta(const arma::vec &means, const arma:
                                              const arma::vec &theta) const
 {
     vec rescaledTheta(theta.n_elem);
-    for (auto i = 1; i < theta.n_elem; ++i) {
+    for (size_t i = 1; i < theta.n_elem; ++i) {
         rescaledTheta(i) = theta(i) / stddevs(i-1);
     }
     double sum = 0;
-    for (auto i = 1; i < rescaledTheta.n_elem; ++i) {
+    for (size_t i = 1; i < rescaledTheta.n_elem; ++i) {
         sum += rescaledTheta(i) * means(i-1);
     }
 

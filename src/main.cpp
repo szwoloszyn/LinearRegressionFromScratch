@@ -20,7 +20,7 @@ void generateTrainingData(mat& X, vec& y)
     // y = 4x + 3 is expected parametrization
     int a = 4;
     int b = 3;
-    int NUM_OF_EXAMPLES = 8;
+    int NUM_OF_EXAMPLES = 50;
 
     vector<double> featureValues;
     featureValues.reserve(NUM_OF_EXAMPLES);
@@ -32,7 +32,7 @@ void generateTrainingData(mat& X, vec& y)
         if ((int(noise) % 10) % 2) {
             noise = -noise;
         }
-        noise = 0;// noise / 100;
+        noise = noise / 100;
         featureValues.push_back(i);
         labelValues.push_back(a*i + b + noise);
     }
@@ -126,12 +126,12 @@ int main()
     mat X;
     vec y;
     //cout << y;
-    BatchGradientDescent grd{0.01,900};
+    BatchGradientDescent grd{0.2,20};
     generateTrainingData(X,y);
 
-    mat Xgrd = { {1,1,2}, {1,2,4}};
+    mat Xgrd = { {1,2}, {3,4}, {6,9}};
     //cout << "rows: " << Xgrd.n_rows;
-    vec ygrd = {2,3};
+    vec ygrd = {2,3,5};
     vec tgrd = {1,1,1};
     //cout << "\n" << grd.calculateGradient(Xgrd,ygrd,tgrd);
     cout << "\nX:" << X;
@@ -139,7 +139,7 @@ int main()
     cout << "\n\n";
     auto thetas = grd.getFitResults(X,y);
 
-    testVec.fit(X,y);
+    testVec.fit(Xgrd,ygrd);
     cout << "\nNormthetas: \n" << testVec.getCoeffs();
     cout << "\nthetas: \n" << thetas;
 }
