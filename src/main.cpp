@@ -123,7 +123,7 @@ int main()
 
     generateTrainingData(X,y);
     //cout << y;
-    BatchGradientDescent grd{0.01,100};
+    BatchGradientDescent grd{0.00001,1000};
     mat Xgrd = { {1,1,2}, {1,2,4}};
     //cout << "rows: " << Xgrd.n_rows;
     vec ygrd = {2,3};

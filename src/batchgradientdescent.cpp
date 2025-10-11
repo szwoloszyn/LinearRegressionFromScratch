@@ -15,7 +15,8 @@ void BatchGradientDescent::fit(const arma::mat &X, const arma::vec &y)
 
 arma::vec BatchGradientDescent::getFitResults(const arma::mat &X, const arma::vec &y) const
 {
-    const mat X_aug = arma::join_horiz(arma::ones<vec>(X.n_rows), X);
+    mat stdX = standardize(X);
+    const mat X_aug = arma::join_horiz(arma::ones<vec>(stdX.n_rows), stdX);
     // TODO start with what thetas ?
     vec thetas(X_aug.n_cols);
     thetas.fill(0.1);
@@ -26,7 +27,7 @@ arma::vec BatchGradientDescent::getFitResults(const arma::mat &X, const arma::ve
         thetas = thetas - (learningRate * grad);
 
         // print every 10th epoch
-        if (epoch % 10) {
+        if (epoch % 100) {
             continue;
         }
         std::cout << "[";
@@ -46,7 +47,8 @@ arma::mat BatchGradientDescent::standardize(const arma::mat &X) const
     for (auto i = 0; i < X.n_cols; ++i) {
         double meanX = arma::mean(X.col(i));
         double stdDevX = arma::stddev(X.col(i));
-
+        // FIXME if stdDevX == 0 -> we get division by 0.
+        // TODO check proposed upgrade
         vec column(X.col(i).n_elem);
         for (auto idx = 0; idx < column.size(); ++idx) {
             double value = X.col(i)(idx);
