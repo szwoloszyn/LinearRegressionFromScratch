@@ -19,24 +19,42 @@ arma::vec BatchGradientDescent::getFitResults(const arma::mat &X, const arma::ve
     // TODO start with what thetas ?
     vec thetas(X_aug.n_cols);
     thetas.fill(0.1);
-    vec lastGrad;
     // learning loop
     for (auto epoch = 0; epoch < nEpochs; ++epoch) {
         vec grad = calculateGradient(X_aug,y,thetas);
         bool isFinished = true;
-        // for (auto i = 0; i < grad.n_elem; ++i) {
-        //     if (grad(i) != 0) {
-        //         isFinished = false;
-        //     }
-        // }
-        // if (isFinished) {
-        //     return thetas;
-        // }
         thetas = thetas - (learningRate * grad);
-        lastGrad = grad;
+
+        // print every 10th epoch
+        if (epoch % 10) {
+            continue;
+        }
+        std::cout << "[";
+        for (auto i = 0; i < thetas.size(); ++i) {
+            std::cout << thetas(i) << ", ";
+        }
+        std::cout << "],\n";
     }
-    std::cout << "\nI have finished with gradient: " << lastGrad;
+
+    //std::cout << "\nI have finished with gradient: " << lastGrad;
     return thetas;
+}
+
+arma::mat BatchGradientDescent::standardize(const arma::mat &X) const
+{
+    mat standardizedX;
+    for (auto i = 0; i < X.n_cols; ++i) {
+        double meanX = arma::mean(X.col(i));
+        double stdDevX = arma::stddev(X.col(i));
+
+        vec column(X.col(i).n_elem);
+        for (auto idx = 0; idx < column.size(); ++idx) {
+            double value = X.col(i)(idx);
+            column(idx) = (value - meanX) / stdDevX;
+        }
+        standardizedX = arma::join_horiz(standardizedX, column);
+    }
+    return standardizedX;
 }
 
 arma::vec BatchGradientDescent::calculateGradient(const arma::mat &X, const arma::vec &y,

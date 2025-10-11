@@ -119,17 +119,21 @@ int main()
     vec yTwoFeature = {-10,8,20};
 
     mat Xtest_a = { {1,6}, {5,9}};
-    cout << "\ntt: \n" << Xtest_a;
+    //cout << "\ntt: \n" << Xtest_a;
 
     generateTrainingData(X,y);
-    cout << y;
-    BatchGradientDescent grd{0.0001,400};
+    //cout << y;
+    BatchGradientDescent grd{0.01,100};
     mat Xgrd = { {1,1,2}, {1,2,4}};
-    cout << "rows: " << Xgrd.n_rows;
+    //cout << "rows: " << Xgrd.n_rows;
     vec ygrd = {2,3};
     vec tgrd = {1,1,1};
     //cout << "\n" << grd.calculateGradient(Xgrd,ygrd,tgrd);
+    cout << "\nX:" << X;
+    cout << "\ny:" << y;
+    cout << "\n\n";
     auto thetas = grd.getFitResults(X,y);
+
     testVec.fit(X,y);
     cout << "\nNormthetas: \n" << testVec.getCoeffs();
     cout << "\nthetas: \n" << thetas;

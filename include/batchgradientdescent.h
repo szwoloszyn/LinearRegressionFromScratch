@@ -9,8 +9,9 @@ public:
     BatchGradientDescent(double eta, size_t n = 1000);
     void fit(const arma::mat& X, const arma::vec& y) override;
     arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const override;
-public:
-           arma::vec calculateGradient(const arma::mat& X, const arma::vec& y,
+TESTABLE:
+    arma::mat standardize(const arma::mat& X) const;
+    arma::vec calculateGradient(const arma::mat& X, const arma::vec& y,
                                            const arma::vec& thetas) const;
 private:
     const double learningRate;
