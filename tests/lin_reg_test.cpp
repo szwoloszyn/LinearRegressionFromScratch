@@ -66,7 +66,7 @@ TEST_F(LinRegTest, predictWorks)
     vec expectedOutput{2,4,6,8,10};
     vec output = trivialTrained.predict(data);
     ASSERT_EQ(output.size(), expectedOutput.size());
-    for (auto i = 0; i < output.size(); ++i) {
+    for (size_t i = 0; i < output.size(); ++i) {
         ASSERT_EQ(output[i], expectedOutput[i]);
     }
 }
@@ -104,7 +104,7 @@ TEST_F(LinRegTest, concatFoldsWorks)
 
     vec excpectedConcatedFolds = {1,2,5,6};
     ASSERT_EQ(concatedFolds.size(), excpectedConcatedFolds.size());
-    for (auto i = 0; i < excpectedConcatedFolds.size(); ++i) {
+    for (size_t i = 0; i < excpectedConcatedFolds.size(); ++i) {
         ASSERT_EQ(concatedFolds[i], excpectedConcatedFolds[i]);
     }
 }

@@ -55,6 +55,7 @@ void generateTrainingData(mat& X, vec& y)
 
 int main()
 {
+    cout << "f:" << 8./7.;
     //srand(time(0));
     srand(123);
 //     // cout << "linear regression" << endl;
@@ -122,24 +123,48 @@ int main()
 //     mat Xtest_a = { {1,6}, {5,9}};
 //     //cout << "\ntt: \n" << Xtest_a;
 
-    NormalEquation testVec{};
-    mat X;
-    vec y;
-    //cout << y;
-    BatchGradientDescent grd{0.2,20};
-    generateTrainingData(X,y);
+    // NormalEquation testVec{};
+    // mat X;
+    // vec y;
+    // //cout << y;
+    // BatchGradientDescent grd{0.2,20};
+    // generateTrainingData(X,y);
 
-    mat Xgrd = { {1,2}, {3,4}, {6,9}};
-    //cout << "rows: " << Xgrd.n_rows;
-    vec ygrd = {2,3,5};
-    vec tgrd = {1,1,1};
-    //cout << "\n" << grd.calculateGradient(Xgrd,ygrd,tgrd);
-    cout << "\nX:" << X;
-    cout << "\ny:" << y;
-    cout << "\n\n";
-    auto thetas = grd.getFitResults(X,y);
+    // mat Xgrd = { {1,2}, {3,4}, {6,9}};
+    // //cout << "rows: " << Xgrd.n_rows;
+    // vec ygrd = {2,3,5};
+    // vec tgrd = {1,1,1};
+    // //cout << "\n" << grd.calculateGradient(Xgrd,ygrd,tgrd);
+    // cout << "\nX:" << X;
+    // cout << "\ny:" << y;
+    // cout << "\n\n";
+    // auto thetas = grd.getFitResults(X,y);
 
-    testVec.fit(Xgrd,ygrd);
-    cout << "\nNormthetas: \n" << testVec.getCoeffs();
-    cout << "\nthetas: \n" << thetas;
+    // testVec.fit(Xgrd,ygrd);
+    // cout << "\nNormthetas: \n" << testVec.getCoeffs();
+    // cout << "\nthetas: \n" << thetas;
+
+    size_t EXAMPLES = 50;
+    size_t FEATURES = 10;
+    mat X(EXAMPLES,FEATURES);
+    for (size_t col = 0; col < X.n_cols; ++col) {
+        for (size_t row = 0; row < X.n_rows; ++row) {
+            X(row, col) = (row)*(col+1);
+            if (col == row) {
+                X(row,col) += 1;
+            }
+        }
+    }
+    vec y(EXAMPLES);
+    for (size_t idx = 0; idx < y.n_elem; ++idx) {
+        y(idx) = arma::sum(X.row(idx));
+    }
+    NormalEquation comparator;
+    BatchGradientDescent testedModel{0.1018,10000000};
+    //std::cout << X << "\ny: " << y;
+    auto gradient = testedModel.getFitResults(X,y);
+    comparator.fit(X,y);
+    auto normeq = comparator.getCoeffs();
+    cout << "gradient: " << gradient;
+    cout << "\nnormeq: " << normeq;
 }

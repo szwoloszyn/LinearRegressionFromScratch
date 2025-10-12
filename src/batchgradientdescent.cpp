@@ -39,9 +39,10 @@ arma::vec BatchGradientDescent::getFitResults(const arma::mat &X, const arma::ve
 
         theta = theta - (learningRate * grad);
 
-        //print every 10th epoch
+        //print every 2nd epoch
         // ***************
-            if (epoch % 2) {
+        continue;
+            if (!epoch % 1) {
                 continue;
             }
             // std::cout << "[";

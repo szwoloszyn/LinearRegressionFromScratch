@@ -2,7 +2,6 @@
 #define GRADIENTDESCENT_H
 
 #include <linearregression.h>
-// NOTE need a StandardScaler
 class BatchGradientDescent : public LinearRegression
 {
 public:
