@@ -23,7 +23,7 @@ double LinearRegression::predictSingleValue(const arma::vec& X_pred, const vec& 
         throw FeaturesDiffFromTraining{"data does not fit to last used training set!"};
     }
     double prediction = 0;
-    for (auto i = 0; i < theta.size(); ++i) {
+    for (size_t i = 0; i < theta.size(); ++i) {
         prediction += theta[i] * X_predAug[i];
     }
     return prediction;
@@ -36,7 +36,7 @@ arma::vec LinearRegression::predict(const arma::mat &X_pred, const arma::vec& pa
         theta = this->linearParams;
     }
     vec predictions(X_pred.n_rows);
-    for (auto i = 0; i < X_pred.n_rows; ++i) {
+    for (size_t i = 0; i < X_pred.n_rows; ++i) {
         predictions(i) = predictSingleValue((X_pred.row(i)).t(), theta);
     }
     return predictions;
@@ -54,7 +54,7 @@ std::vector<double> LinearRegression::kFoldCrossValidation(const arma::mat& X, c
     std::vector<vec> y_folds{k};
     this->splitFolds(X,y,k,X_folds, y_folds);
     std::vector<double> RMSEValues;
-    for (auto i = 0; i < k; ++i) {
+    for (size_t i = 0; i < k; ++i) {
         auto X_train = concatFolds(X_folds,i);
         auto y_train = concatFolds(y_folds,i);
         auto X_test = X_folds[i];
@@ -92,7 +92,7 @@ void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const 
     arma::vec y_shuffled = y.elem(indices);
 
     size_t foldSize = X_shuffled.n_rows / k;
-    for (auto i = 0; i < k; ++i) {
+    for (size_t i = 0; i < k; ++i) {
         X_folds[i] = X_shuffled.rows(foldSize*i,foldSize*(i+1) - 1);
         y_folds[i] = y_shuffled.rows(foldSize*i,foldSize*(i+1) - 1);
     }
@@ -113,7 +113,7 @@ T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t exclud
         throw std::invalid_argument{"index greater than array size"};
     }
     arma::mat finalMat;
-    for (auto i = 0; i < folds.size(); ++i) {
+    for (size_t i = 0; i < folds.size(); ++i) {
         if (i == excludeIdx) {
             continue;
         }
@@ -133,10 +133,10 @@ void LinearRegression::RMSEReport(const arma::mat &X_test, const arma::vec &y_te
     std::cout << "\nMean RMSE for whole testing set: \n";
     std::cout << RMSE(y_test,y_pred) << "\n";
 
-    std::cout << "Mean RMSE for each entry: \n";
-    for (auto i = 0; i < y_test.n_elem; ++i) {
-        std::cout << i+1 << ". " << RMSE(vec{y_test(i)},vec{y_pred(i)}) << '\n';
-    }
+    // std::cout << "Mean RMSE for each entry: \n";
+    // for (auto i = 0; i < y_test.n_elem; ++i) {
+    //     std::cout << i+1 << ". " << RMSE(vec{y_test(i)},vec{y_pred(i)}) << '\n';
+    // }
 }
 
 double LinearRegression::RMSE(const arma::vec &actual, const arma::vec &predicted) const

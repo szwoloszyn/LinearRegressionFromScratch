@@ -40,12 +40,12 @@ void generateTrainingData(mat& X, vec& y)
     X = mat(featureValues.size(),1, arma::fill::zeros);
     y = vec(labelValues.size(), arma::fill::zeros);
     cout << "\n";
-    for (auto i = 0; i < featureValues.size(); ++i) {
+    for (size_t i = 0; i < featureValues.size(); ++i) {
         cout << featureValues[i] << ", ";
         X(i,0) = featureValues[i];
     }
     cout << "\n";
-    for (auto i = 0; i < labelValues.size(); ++i) {
+    for (auto i = 0uL; i < labelValues.size(); ++i) {
         cout << labelValues[i] << ", ";
         y(i) = labelValues[i];
     }
@@ -160,7 +160,7 @@ int main()
         y(idx) = arma::sum(X.row(idx));
     }
     NormalEquation comparator;
-    BatchGradientDescent testedModel{0.1018,10000000};
+    BatchGradientDescent testedModel{0.1018,10000};
     //std::cout << X << "\ny: " << y;
     auto gradient = testedModel.getFitResults(X,y);
     comparator.fit(X,y);
