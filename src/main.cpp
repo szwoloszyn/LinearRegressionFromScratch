@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "normalequation.h"
+#include "batchgradientdescent.h"
 using arma::vec, arma::mat;
 using namespace std;
 
@@ -26,7 +27,7 @@ void generateTrainingData(mat& X, vec& y)
     vector<double> labelValues;
     labelValues.reserve(NUM_OF_EXAMPLES);
     for (auto i = 0; i < NUM_OF_EXAMPLES; ++i) {
-        double noise = rand() % 301;
+        double noise = rand() % 101;
         // simulating random +/- noise
         if ((int(noise) % 10) % 2) {
             noise = -noise;
@@ -39,12 +40,12 @@ void generateTrainingData(mat& X, vec& y)
     X = mat(featureValues.size(),1, arma::fill::zeros);
     y = vec(labelValues.size(), arma::fill::zeros);
     cout << "\n";
-    for (auto i = 0; i < featureValues.size(); ++i) {
+    for (size_t i = 0; i < featureValues.size(); ++i) {
         cout << featureValues[i] << ", ";
         X(i,0) = featureValues[i];
     }
     cout << "\n";
-    for (auto i = 0; i < labelValues.size(); ++i) {
+    for (auto i = 0uL; i < labelValues.size(); ++i) {
         cout << labelValues[i] << ", ";
         y(i) = labelValues[i];
     }
@@ -52,73 +53,51 @@ void generateTrainingData(mat& X, vec& y)
 }
 
 
+size_t generateComplexTrainingData(mat& XX, vec& yy)
+{
+    arma::arma_rng::set_seed_random();
+
+    size_t nSamples = 100;
+
+    arma::vec x = arma::randu<arma::vec>(nSamples) * 10;
+    arma::vec y = arma::randu<arma::vec>(nSamples) * 5;
+
+    arma::vec noise = arma::randn<arma::vec>(nSamples);
+
+    // z = 2x + 3y + 1 + noise
+    arma::vec z = 2 * x + 3 * y + 1 + noise;
+
+    arma::mat X(nSamples, 2);
+    X.col(0) = x;
+    X.col(1) = y;
+
+    XX = X;
+    yy = z;
+    return nSamples;
+}
+
 int main()
 {
-    srand(time(0));
-    // cout << "linear regression" << endl;
-    // arma::mat matrix = arma::mat("0.0 0.1 0.2 ; 1.0 1.1 1.2 ; 2.0 2.1 2.2");
+    srand(123);
 
-    // matrix(1,1) = 0.0123956;
-    // matrix.print(std::cout, "org");
-
-    // matrix = matrix.t();
-    // matrix.print(std::cout, "transposed");
-    // try {
-    //     matrix = matrix.i();
-    // }
-    // catch(...) {
-    //     cout << "matrix does not have inversion";
-    // }
-
-    // matrix.print(std::cout, "inversedxx");
-
-    NormalEquation testVec{};
-    mat X{ 1,2};
-    X = X.t();
-    vec y = {2,4};
-    testVec.fit(X,y);
-    cout << testVec.predictSingleValue(vec{4});
-
-    generateTrainingData(X,y);
-    //cout << X;
-    testVec.fit(X,y);
-    testVec.RMSEReport(X.rows(1,10),y.subvec(1,10));
-    //AtestVec.printCoeffs();
-
-    mat foldX = {
-        {1,1},
-        {2,2},
-        {3,3},
-        {4,4},
-        {5,5.1},
-        {6,6},
-    };
-    //foldX = (mat{1,2,3,4,5,6}).t();
-    vec foldy = {
-        1,2,3,4,5,6
-    };
-    testVec.fit(foldX,foldy);
-    //cout << "\n-> " << testVec.predict(foldX) << "\n";
-
-    auto vect = testVec.kFoldCrossValidation(X,y,5);
-
-    cout << "\nKFold Cross Validation with 5 folds RMSEs: \n";
-    for (auto x : vect) {
-        std::cout << x << ", ";
+    mat XX;
+    vec yy;
+    const size_t TSS = 0.8 * generateComplexTrainingData(XX,yy); // returning how many samples
+    BatchGradientDescent grad{0.01,8000};
+    NormalEquation norm;
+    norm.fit(XX.rows(0,TSS),yy.rows(0,TSS));
+    grad.fit(XX.rows(0,TSS),yy.rows(0,TSS));
+    auto gradPreds = grad.predict(XX.rows(TSS + 1,XX.n_rows-1));
+    auto normeqPreds = norm.predict(XX.rows(TSS + 1,XX.n_rows-1));
+    auto actual = yy.rows(TSS + 1,yy.n_rows-1);
+    std::cout << gradPreds.size() << " " << normeqPreds.size() << " " << actual.n_elem << "\n";
+    std::cout << "gradient" << " ; " << "normal eq" << " ; " << "real values" << "\n";
+    for (size_t i = 0; i < gradPreds.size(); ++i) {
+        std::cout << gradPreds[i] << " ; " << normeqPreds[i] << " ; " << actual[i] << "\n";
     }
-
-    // mat XCVExample=( mat{0,1,2,3,4,5,6,7,8,9}).t();
-    // vec yCVExample = {0,1,2,3,4,5,6,7,8,9};
-    // std::vector<arma::mat> X_folds;
-    // std::vector<arma::vec> y_folds;
-    // newModel.splitFolds(XCVExample, yCVExample, 4, X_folds, y_folds);
-    // cout << X_folds[1];
-
-    mat XTwoFeature = (mat{ {1,5,6}, {6,9,10} }).t();
-    vec yTwoFeature = {-10,8,20};
-
-    mat Xtest_a = { {1,6}, {5,9}};
-    cout << "\ntt: \n" << Xtest_a;
-
+    cout << "\ngradient coefs:" << grad.getCoeffs();
+    cout << "\nnormeq coefs:" << norm.getCoeffs();
+    grad.RMSEReport(XX.rows(TSS + 1,XX.n_rows-1), yy.rows(TSS + 1, yy.n_rows - 1));
+    return 0;
 
 }

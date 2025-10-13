@@ -1,3 +1,11 @@
+### MY MATHEMATICA THOUGHT MAP NOTEBOOK
+*.nb
+### CODE TEST FILES
+grad-plot.py
+arma-test.cpp
+housing_dataset.cpp
+
+
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
