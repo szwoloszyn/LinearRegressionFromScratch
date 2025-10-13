@@ -37,7 +37,6 @@ protected:
     arma::vec linearParams;
 };
 
-// custom exception for unfitted model
 class ModelNotFittedException : public std::runtime_error
 {
 public:

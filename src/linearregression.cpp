@@ -69,7 +69,6 @@ std::vector<double> LinearRegression::kFoldCrossValidation(const arma::mat& X, c
                 continue;
         }
         auto predictions = predict(X_test,thetas);
-        //std::cout << "y test: " << y_te
         RMSEValues.push_back(RMSE(y_test,predictions));
     }
     return RMSEValues;
@@ -132,11 +131,6 @@ void LinearRegression::RMSEReport(const arma::mat &X_test, const arma::vec &y_te
     auto y_pred = predict(X_test);
     std::cout << "\nMean RMSE for whole testing set: \n";
     std::cout << RMSE(y_test,y_pred) << "\n";
-
-    // std::cout << "Mean RMSE for each entry: \n";
-    // for (auto i = 0; i < y_test.n_elem; ++i) {
-    //     std::cout << i+1 << ". " << RMSE(vec{y_test(i)},vec{y_pred(i)}) << '\n';
-    // }
 }
 
 double LinearRegression::RMSE(const arma::vec &actual, const arma::vec &predicted) const
