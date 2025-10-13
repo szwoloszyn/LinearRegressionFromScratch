@@ -68,7 +68,32 @@ TEST_F(BatchGradTest, getStdDevWorks)
                                    expectedOutput, "absdiff", 0.001));
 }
 
-TEST_F(BatchGradTest, getFitResultsWork)
+// data generator
+
+void generateComplexTrainingData(mat& XX, vec& yy)
+{
+    arma::arma_rng::set_seed_random();
+
+    size_t nSamples = 1000;
+
+    arma::vec x = arma::randu<arma::vec>(nSamples) * 10;
+    arma::vec y = arma::randu<arma::vec>(nSamples) * 5;
+
+    arma::vec noise = arma::randn<arma::vec>(nSamples);
+
+    // z = 2x + 3y + 1 + noise
+    arma::vec z = 2 * x + 3 * y + 1 + noise;
+
+    arma::mat X(nSamples, 2);
+    X.col(0) = x;
+    X.col(1) = y;
+
+    XX = X;
+    yy = z;
+}
+
+
+TEST_F(BatchGradTest, getFitResultsWorks)
 {
     size_t EXAMPLES = 10;
     size_t FEATURES = 3;
@@ -92,4 +117,35 @@ TEST_F(BatchGradTest, getFitResultsWork)
                            comparator.getFitResults(X,y),
                            "absdiff", 0.1)
     );
+}
+
+TEST_F(BatchGradTest, modelComplexExample)
+{
+    mat XX;
+    vec yy;
+    generateComplexTrainingData(XX,yy);
+    size_t TSS = 800;
+    BatchGradientDescent grad{0.01,8000};
+    NormalEquation normeq;
+    normeq.fit(XX.rows(0,TSS),yy.rows(0,TSS));
+    grad.fit(XX.rows(0,TSS),yy.rows(0,TSS));
+    auto gradPreds = grad.predict(XX.rows(TSS + 1,XX.n_rows-1));
+    auto normeqPreds = normeq.predict(XX.rows(TSS + 1,XX.n_rows-1));
+    ASSERT_EQ(gradPreds.size(), normeqPreds.size());
+    auto actual = yy.rows(TSS + 1,yy.n_rows-1);
+    std::cout << "gradient" << " ; " << "normal eq" << " ; " << "real values" << "\n";
+    for (size_t i = 0; i < gradPreds.size(); ++i) {
+        ASSERT_NEAR(
+            gradPreds[i],
+            normeqPreds[i],
+            0.1
+            );
+        ASSERT_NEAR(
+            gradPreds[i],
+            actual[i],
+            5
+            );
+        std::cout << gradPreds[i] << " ; " << normeqPreds[i] << " ; " << actual[i] << "\n";
+    }
+    ASSERT_LE(grad.RMSE(actual,gradPreds), 1.5);
 }
