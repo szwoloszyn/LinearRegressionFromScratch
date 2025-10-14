@@ -26,6 +26,8 @@ target_include_directories(linregfromscratch PUBLIC ${PROJECT_SOURCE_DIR}/includ
 
 target_link_libraries(linregfromscratch PUBLIC ${ARMADILLO_LIBRARIES})
 
+enable_testing()
+add_subdirectory(tests)
 
 include(GNUInstallDirs)
 install(TARGETS linregfromscratch
