@@ -15,20 +15,22 @@ add_compile_options(-Wall -Wextra -pedantic)
 file(GLOB SRC_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/*.h)
 
-add_library(sourceCode
+option(BUILD_SHARED_LIBS "Build shared libraries instead of static" ON)
+
+add_library(LinRegFromScratch ${LIB_TYPE}
     ${SRC_FILES}
     ${HEADER_FILES}
 )
 
-target_include_directories(sourceCode PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(LinRegFromScratch PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 
-target_link_libraries(sourceCode PUBLIC ${ARMADILLO_LIBRARIES})
+target_link_libraries(LinRegFromScratch PUBLIC ${ARMADILLO_LIBRARIES})
 
 
 add_executable(LinearRegressionFromScratch src/main.cpp
 )
-target_link_libraries(LinearRegressionFromScratch PRIVATE sourceCode)
+target_link_libraries(LinearRegressionFromScratch PRIVATE LinRegFromScratch)
 
 enable_testing()
 add_subdirectory(tests)

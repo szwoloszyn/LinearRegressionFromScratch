@@ -8,7 +8,7 @@ add_executable(unit_tests
 )
 
 target_link_libraries(unit_tests
-	sourceCode
+	LinRegFromScratch
 	gtest
 	gtest_main
 	pthread
