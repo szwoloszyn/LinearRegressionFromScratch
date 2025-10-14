@@ -7,6 +7,6 @@ make
 
 cp ../include/* /usr/local/include/
 
-mv ./libLinRegFromScratch.so /usr/local/lib/
+mv ./liblinregfromscratch.so /usr/local/lib/
 
-
+ldconfig /usr/local/lib

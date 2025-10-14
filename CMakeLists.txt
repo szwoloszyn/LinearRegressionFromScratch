@@ -17,26 +17,25 @@ file(GLOB HEADER_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/*.h)
 
 option(BUILD_SHARED_LIBS "Build shared libraries instead of static" ON)
 
-add_library(LinRegFromScratch ${LIB_TYPE}
+add_library(linregfromscratch ${LIB_TYPE}
     ${SRC_FILES}
     ${HEADER_FILES}
 )
 
-target_include_directories(LinRegFromScratch PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(linregfromscratch PUBLIC ${PROJECT_SOURCE_DIR}/include)
+# target_link_libraries(LinearRegressionFromScratch PRIVATE linregfromscratch)
+
+target_link_libraries(linregfromscratch PUBLIC ${ARMADILLO_LIBRARIES})
 
 
-target_link_libraries(LinRegFromScratch PUBLIC ${ARMADILLO_LIBRARIES})
+#add_executable(LinearRegressionFromScratch src/main.cpp
+#)
 
-
-add_executable(LinearRegressionFromScratch src/main.cpp
-)
-target_link_libraries(LinearRegressionFromScratch PRIVATE LinRegFromScratch)
 
 enable_testing()
-add_subdirectory(tests)
 
 include(GNUInstallDirs)
-install(TARGETS LinearRegressionFromScratch
+install(TARGETS linregfromscratch
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
