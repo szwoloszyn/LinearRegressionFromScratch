@@ -1,0 +1,30 @@
+### Linear Regression From Scratch - Instalation Guide
+[NOTE]: This guide is suited for Linux users, if you want to install this library on windows machine, you **will not** be able to run [my install script](./lib-install.sh), instead build manually.
+
+
+In order to build this project you need:
+- **C++ 17** or newer
+- **CMake >= 3.10**
+- **Armadillo Library**
+
+You can build either **shared** or **static** version
+```
+# for shared (.so) lib
+cmake -DBUILD_SHARED_LIBS=ON /root/dir/to/project
+
+# for static (.a) lib
+cmake -DBUILD_SHARED_LIBS=OFF /root/dir/to/project
+```
+
+To install this library system-wide (Linux only) you can use [this bash script](./lib-install.sh) which will build the library and put all needed  files in `/usr/local/[...]` directory.
+
+- Run [lib-install.sh](./lib-install.sh) script from **project root** directory `(path/on/your/pc/LinearRegressionFromScratch)`
+
+- You need to run [lib-install.sh](./lib-install.sh) as `ROOT` so it may save `.so` and `.h` files into correct directiories.
+
+All includes and functionalities the library has to offer are stated in [main README.md](../README.md) file.
+
+In [example.cpp](./example.cpp) there is already pre-trained basic model. In order to compile the file into executable, follow:
+```
+g++ -O3 example.cpp -llinregfromscratch -o example.out
+```
