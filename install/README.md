@@ -22,9 +22,14 @@ To install this library system-wide (Linux only) you can use [this bash script](
 
 - You need to run [lib-install.sh](./lib-install.sh) as `ROOT` so it may save `.so` and `.h` files into correct directiories.
 
-All includes and functionalities the library has to offer are stated in [main README.md](../README.md) file.
+All functionalities the library has to offer are stated in [main README.md](../README.md) file.
 
 In [example.cpp](./example.cpp) there is already pre-trained basic model. In order to compile the file into executable, follow:
 ```
 g++ -O3 example.cpp -llinregfromscratch -o example.out
 ```
+##### INCLUDES:
+In your `.cpp` file you can use following includes:
+- `#include "normalequation.h"` ( Linear Regression using normal equation for calculations (accurate but **very** slow when number of features raises) ) - move this to global readme !
+- `#include "batchgradientdescent.h"`
+Details are described in [main README.md](../README.md) file.
