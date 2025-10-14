@@ -4,7 +4,7 @@
 grad-plot.py
 arma-test.cpp
 housing_dataset.cpp
-
+install/*.out
 
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------

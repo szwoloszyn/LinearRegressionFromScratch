@@ -23,16 +23,9 @@ add_library(linregfromscratch ${LIB_TYPE}
 )
 
 target_include_directories(linregfromscratch PUBLIC ${PROJECT_SOURCE_DIR}/include)
-# target_link_libraries(LinearRegressionFromScratch PRIVATE linregfromscratch)
 
 target_link_libraries(linregfromscratch PUBLIC ${ARMADILLO_LIBRARIES})
 
-
-#add_executable(LinearRegressionFromScratch src/main.cpp
-#)
-
-
-enable_testing()
 
 include(GNUInstallDirs)
 install(TARGETS linregfromscratch
