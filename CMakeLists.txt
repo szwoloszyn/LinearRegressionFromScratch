@@ -15,6 +15,7 @@ add_compile_options(-Wall -Wextra -pedantic)
 file(GLOB SRC_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 file(GLOB HEADER_FILES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/*.h)
 
+option(BUILD_PYTHON_LIBS "Build Python module with pybind11" OFF)
 option(BUILD_SHARED_LIBS "Build shared libraries instead of static" ON)
 
 add_library(linregfromscratch ${LIB_TYPE}
@@ -26,6 +27,7 @@ target_include_directories(linregfromscratch PUBLIC ${PROJECT_SOURCE_DIR}/includ
 
 target_link_libraries(linregfromscratch PUBLIC ${ARMADILLO_LIBRARIES})
 
+
 enable_testing()
 add_subdirectory(tests)
 
@@ -34,3 +36,16 @@ install(TARGETS linregfromscratch
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+
+if(BUILD_PYTHON_LIBS)
+    message(STATUS "Building Python bindings using pybind11")
+    find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+    find_package(pybind11 REQUIRED)
+
+    pybind11_add_module(linregpy
+        bindings/bindings.cpp
+    )
+    target_link_libraries(linregpy PRIVATE linregfromscratch)
+    target_include_directories(linregpy PRIVATE include)
+endif()
