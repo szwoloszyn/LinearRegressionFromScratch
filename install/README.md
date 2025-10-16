@@ -26,7 +26,7 @@ cmake -DBUILD_SHARED_LIBS=OFF /root/dir/to/project
 
 To install this library system-wide (Linux only) you can use [this bash script](./lib-install.sh) which will build the library and put all needed  files in `/usr/local/[...]` directory.
 
-- Run [lib-install.sh](./lib-install.sh) script from **project root** directory `(path/on/your/pc/LinearRegressionFromScratch)`
+- Run [lib-install.sh](./lib-install.sh) script from **project root** directory `(path/on/your/pc/LinearRegressionFromScratch)`.
 
 - You need to run [lib-install.sh](./lib-install.sh) as `ROOT` so it may save `.so` and `.h` files into correct directiories.
 
@@ -49,7 +49,10 @@ Details are described in [main README.md](../README.md) file.
 `cmake -DBUILD_PYTHON_LIBS=ON` will generate a `linregpy*.so` file. You can run python files from the same directory as `.so` file or move into python packages directory to run files globally.
 You probably can check it with `echo $(python3 -c "import site; print(site.getsitepackages()[0])")`
 
-Python installation [script](./lib-install-python.sh) basically follow aforementioned steps.
+Python installation [script](./lib-install-python.sh) steps above. Follow these instructions before running:
+- Run [lib-install-python.sh](./lib-install-python.sh) script from **project root** directory `(path/on/your/pc/LinearRegressionFromScratch)`.
+
+- You need to run [lib-install-python.sh](./lib-install-python.sh) as `ROOT` so it may save `.so` file into correct directiories.
 
 ##### INCLUDES
 - `import linregpy` will allow you to run every functionality delivered by this library
