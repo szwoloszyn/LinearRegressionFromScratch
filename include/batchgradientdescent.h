@@ -7,8 +7,9 @@ class BatchGradientDescent : public LinearRegression
 public:
     BatchGradientDescent(double eta, size_t n = 1000);
     void fit(const arma::mat& X, const arma::vec& y) override;
-    arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const override;
+
 TESTABLE:
+    arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const override;
     arma::vec getMeans(const arma::mat& X) const;
     arma::vec getStdDevs(const arma::mat& X) const;
     arma::mat standardize(const arma::mat& X) const;
