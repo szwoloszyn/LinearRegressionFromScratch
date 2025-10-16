@@ -8,7 +8,7 @@ In order to build this project you need:
 - **Armadillo Library**
 - **pybind11 + numpy** if willing to use library with python
 
-Full functionality delivered by this library is stated in main [README.md](../README.md) file.
+Full functionality delivered by this library is stated in [README.md](../README.md) file.
 
 
 ---
@@ -40,7 +40,7 @@ In your `.cpp` file you can use following includes:
 - `#include "normalequation.h"` ( Linear Regression using normal equation for calculations (accurate but **very** slow when number of features raises) ) - move this to global readme !
 - `#include "batchgradientdescent.h"`
 
-Details are described in [main README.md](../README.md) file.
+Details are described in [README.md](../README.md) file.
 
 ---
 
