@@ -1,4 +1,4 @@
-### Linear Regression From Scratch - Instalation Guide
+## Linear Regression From Scratch - Instalation Guide
 [NOTE]: This guide is suited for Linux users, if you want to install this library on windows machine, you **will not** be able to run [my install script](./lib-install.sh), instead build manually.
 
 
@@ -6,13 +6,14 @@ In order to build this project you need:
 - **C++ 17** or newer
 - **CMake >= 3.10**
 - **Armadillo Library**
-- **pybind11** optionally if willing to use it with python
+- **pybind11 + numpy** if willing to use library with python
 
-All functionalities the library has to offer are stated in main [README.md](../README.md) file.
+Full functionality delivered by this library is stated in main [README.md](../README.md) file.
+
 
 ---
 
-#### C++ INSTALLATION
+### C++ INSTALLATION
 
 You can build either **shared** or **static** version
 ```
@@ -43,7 +44,7 @@ Details are described in [main README.md](../README.md) file.
 
 ---
 
-#### PYTHON INSTALLATION
+### PYTHON INSTALLATION
 
 `cmake -DBUILD_PYTHON_LIBS=ON` will generate a `linregpy*.so` file. You can run python files from the same directory as `.so` file or move into python packages directory to run files globally.
 You probably can check it with `echo $(python3 -c "import site; print(site.getsitepackages()[0])")`
@@ -52,3 +53,5 @@ Python installation [script](./lib-install-python.sh) basically follow aforement
 
 ##### INCLUDES
 - `import linregpy` will allow you to run every functionality delivered by this library
+
+You can see example python code in [example.py](./example.py)
