@@ -9,7 +9,7 @@
 #else
 #define TESTABLE protected
 #endif
-// TODO 1. delete params from predicts 2. clean bindings.cpp 3. update instalation script and readme 4. start pull requesting
+// TODO 1. update instalation script and readme 2. start pull requesting
 
 class LinearRegression
 {
