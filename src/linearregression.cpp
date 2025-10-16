@@ -105,26 +105,9 @@ void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const 
 }
 
 
-template <typename T>
-T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const
-{
-    if (excludeIdx >= folds.size()) {
-        throw std::invalid_argument{"index greater than array size"};
-    }
-    arma::mat finalMat;
-    for (size_t i = 0; i < folds.size(); ++i) {
-        if (i == excludeIdx) {
-            continue;
-        }
-        if (finalMat.n_rows == 0) {
-            finalMat = folds[i];
-        }
-        else {
-            finalMat = arma::join_cols(finalMat, folds[i]);
-        }
-    }
-    return finalMat;
-}
+// template <typename T>
+// T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const
+
 
 void LinearRegression::RMSEReport(const arma::mat &X_test, const arma::vec &y_test) const
 {

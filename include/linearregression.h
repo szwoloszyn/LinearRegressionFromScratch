@@ -31,7 +31,25 @@ TESTABLE:
                     std::vector<arma::mat>& X_folds, std::vector<arma::vec>& y_folds) const;
 
     template <typename T>
-    T concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const;
+    T concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const
+    {
+        if (excludeIdx >= folds.size()) {
+            throw std::invalid_argument{"index greater than array size"};
+        }
+        arma::mat finalMat;
+        for (size_t i = 0; i < folds.size(); ++i) {
+            if (i == excludeIdx) {
+                continue;
+            }
+            if (finalMat.n_rows == 0) {
+                finalMat = folds[i];
+            }
+            else {
+                finalMat = arma::join_cols(finalMat, folds[i]);
+            }
+        }
+        return finalMat;
+    }
 
     double RMSE(const arma::vec& actual, const arma::vec& predicted) const;
 
