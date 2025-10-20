@@ -63,7 +63,7 @@ std::vector<double> LinearRegression::kFoldCrossValidation(const arma::mat& X, c
         try {
             thetas = getFitResults(X_train, y_train);
         }
-        catch(std::invalid_argument) {
+        catch(std::invalid_argument& ex) {
             std::cerr << "data splitted in lineary dependent"
                          "features. Skipping this split.";
                 continue;
