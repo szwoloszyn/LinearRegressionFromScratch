@@ -69,7 +69,6 @@ std::vector<double> LinearRegression::kFoldCrossValidation(const arma::mat& X, c
                 continue;
         }
         auto predictions = predict(X_test,thetas);
-        //std::cout << "y test: " << y_te
         RMSEValues.push_back(RMSE(y_test,predictions));
     }
     return RMSEValues;
@@ -106,37 +105,15 @@ void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const 
 }
 
 
-template <typename T>
-T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const
-{
-    if (excludeIdx >= folds.size()) {
-        throw std::invalid_argument{"index greater than array size"};
-    }
-    arma::mat finalMat;
-    for (size_t i = 0; i < folds.size(); ++i) {
-        if (i == excludeIdx) {
-            continue;
-        }
-        if (finalMat.n_rows == 0) {
-            finalMat = folds[i];
-        }
-        else {
-            finalMat = arma::join_cols(finalMat, folds[i]);
-        }
-    }
-    return finalMat;
-}
+// template <typename T>
+// T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const
+
 
 void LinearRegression::RMSEReport(const arma::mat &X_test, const arma::vec &y_test) const
 {
     auto y_pred = predict(X_test);
     std::cout << "\nMean RMSE for whole testing set: \n";
     std::cout << RMSE(y_test,y_pred) << "\n";
-
-    // std::cout << "Mean RMSE for each entry: \n";
-    // for (auto i = 0; i < y_test.n_elem; ++i) {
-    //     std::cout << i+1 << ". " << RMSE(vec{y_test(i)},vec{y_pred(i)}) << '\n';
-    // }
 }
 
 double LinearRegression::RMSE(const arma::vec &actual, const arma::vec &predicted) const

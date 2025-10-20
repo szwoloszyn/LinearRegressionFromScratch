@@ -141,10 +141,7 @@ TEST_F(LinRegTest, CrossValWorks)
     twoFeatureTrained.fit(X_train,y_train);
     prediction = twoFeatureTrained.predict(X_test);
     expectedRMSEs.push_back(twoFeatureTrained.RMSE(y_test,prediction));
-    // std::cout << "LEMMESE:\n";
-    // for (auto x : expectedRMSEs) {
-    //     std::cout << x << "; ";
-    // }
+
     std::sort(RMSEs.begin(), RMSEs.end());
     std::sort(expectedRMSEs.begin(), expectedRMSEs.end());
     ASSERT_EQ(RMSEs, expectedRMSEs);
@@ -165,6 +162,4 @@ TEST_F(LinRegTest, RmseWorks)
         trivialTrained.RMSE(actual, predicted),
         std::logic_error
     );
-
-
 }

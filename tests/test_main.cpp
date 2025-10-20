@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <armadillo>
+
 TEST(test_of_tests, always_true) {
     EXPECT_EQ(42,42);
 }
@@ -10,7 +11,7 @@ TEST(arma_operations, isPlusElementWise) {
     arma::vec diff = b-a;
     arma::vec expectedDiff = {1,1,1};
     ASSERT_EQ(diff.size(), expectedDiff.size());
-    for (auto i = 0; i < diff.size(); ++i) {
+    for (size_t i = 0; i < diff.size(); ++i) {
         ASSERT_EQ(diff[i], expectedDiff[i]);
     }
 }

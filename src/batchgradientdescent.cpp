@@ -25,37 +25,9 @@ arma::vec BatchGradientDescent::getFitResults(const arma::mat &X, const arma::ve
     vec theta(X_aug.n_cols);
     theta.fill(0.1);
 
-    // ****************
-        std::cout << "-----\n";
-        std::cout << "[";
-        for (size_t i = 0; i < theta.size(); ++i) {
-            std::cout << "theta: " << theta(i) << ", ";
-        }
-        std::cout << "],\n";
-    // ****************
-
     for (size_t epoch = 0; epoch < nEpochs; ++epoch) {
         vec grad = calculateGradient(X_aug,y,theta);
-
         theta = theta - (learningRate * grad);
-
-        //print every 2nd epoch
-        // ***************
-        continue;
-            if (!epoch % 1) {
-                continue;
-            }
-            // std::cout << "[";
-            // for (size_t i = 0; i < theta.size(); ++i) {
-            //     std::cout << "grad: " << grad(i) << ", ";
-            // }
-            // std::cout << "],\n";
-            std::cout << "[";
-            for (size_t i = 0; i < theta.size(); ++i) {
-                std::cout /*<< "theta: " */<< theta(i) << ", ";
-            }
-            std::cout << "],\n";
-        // ***************
     }
     return rescaleTheta(means, stddevs, theta);
 }

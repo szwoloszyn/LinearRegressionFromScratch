@@ -133,7 +133,6 @@ TEST_F(BatchGradTest, modelComplexExample)
     auto normeqPreds = normeq.predict(XX.rows(TSS + 1,XX.n_rows-1));
     ASSERT_EQ(gradPreds.size(), normeqPreds.size());
     auto actual = yy.rows(TSS + 1,yy.n_rows-1);
-    std::cout << "gradient" << " ; " << "normal eq" << " ; " << "real values" << "\n";
     for (size_t i = 0; i < gradPreds.size(); ++i) {
         ASSERT_NEAR(
             gradPreds[i],
@@ -145,7 +144,6 @@ TEST_F(BatchGradTest, modelComplexExample)
             actual[i],
             5
             );
-        std::cout << gradPreds[i] << " ; " << normeqPreds[i] << " ; " << actual[i] << "\n";
     }
     ASSERT_LE(grad.RMSE(actual,gradPreds), 1.5);
 }
