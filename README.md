@@ -128,3 +128,35 @@ Returns model parameters. Model needs to be trained in order to call this method
 `returns:`
 - **out** : `arma::vec`
 Model parameters.
+
+
+```c++
+double getRMSE(const arma::mat& X_test, const arma::vec& y_test) const;
+```
+Returns RMSE error for given sample.
+
+`params:`
+- **X** : `arma::mat`
+testing input values (features).
+
+- **y** : `arma::vec`
+expected values (labels).
+
+`returns:`
+- **out** : `double`
+Mean error for given dataset.
+
+```c++
+void RMSEReport(const arma::mat& X_test, const arma::vec& y_test) const;
+```
+Prints clean report on `RMSE` statistical parameters. (just mean for now TODO later :) )
+
+`params:`
+- **X** : `arma::mat`
+testing input values (features).
+
+- **y** : `arma::vec`
+expected values (labels).
+
+`returns:`
+- **None**
