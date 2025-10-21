@@ -7,7 +7,7 @@ This is an implementation of chosen Linear Regression algorithms, build as a C++
 ## Table of contents
 - [What is it](#whatisit)
 - [How to run](#howtorun)
-- [Codemap](#codemap)
+- [Code map](#codemap)
 
 ## What is it
 
@@ -15,4 +15,9 @@ This is an implementation of chosen Linear Regression algorithms, build as a C++
 
 ## How to run
 Full installation guide, alongside with installation scripts and library usage examples, are available in [install](./install/) directory.
+
+## Code map
+
+tbc
+
 
