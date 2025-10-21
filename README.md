@@ -25,11 +25,11 @@ Full installation guide, alongside with installation scripts and library usage e
 
 ### 2. USING THE LIBRARY
 
-All classes are extend `LinearRegression` abstract class which has implemented public methods for training and evaluating model.
+All classes are derived from `LinearRegression` abstract class which has implemented public methods for training and evaluating model. These can be used with any model.
 
 ### 2.1 `NormalEquation`
 
-```
+```c++
 NormalEquation() 
 ```
 
@@ -45,9 +45,10 @@ NormalEquation()
 ### 2.2 `BatchGradientDescent`
 - Constructor:
 
-```
+```c++
 BatchGradientDescent::BatchGradientDescent(double eta, size_t n = 1000)
 ```
+
 `params:`
 - **eta** : `float64`
     
@@ -62,10 +63,10 @@ BatchGradientDescent::BatchGradientDescent(double eta, size_t n = 1000)
 ### 2.2 `LinearRegression`
 
 
-```
+```c++
 void fit(const arma::mat& X, const arma::vec& y)
 ```
-An overriden method from base class. Calculates theta parameters and saves them to choosen object.
+Calculates theta parameters and saves them to choosen model.
 
 `params:`
 - **X** : `arma::mat`
@@ -79,4 +80,6 @@ An overriden method from base class. Calculates theta parameters and saves them 
 `returns:`
 - **None**
 
-
+```c++
+arma::vec predict(const arma::mat& X_pred, const arma::vec& params = arma::vec{}) const;
+```
