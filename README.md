@@ -51,11 +51,10 @@ BatchGradientDescent::BatchGradientDescent(double eta, size_t n = 1000)
 
 `params:`
 - **eta** : `float64`
-    
-    algorithm's learning rate
-- **n** : `size_t`
+algorithm's learning rate
 
-    number of iterations
+- **n** : `size_t`
+number of iterations
 
 `returns:`
 - **obj** : `BatchGradientDescent`
@@ -70,11 +69,10 @@ Calculates theta parameters and saves them to choosen model.
 
 `params:`
 - **X** : `arma::mat`
+training input values (features).
 
-    training input values (features).
-- **n** : `size_t`
-
-    target values (labels).
+- **y** : `arma::vec`
+target values (labels).
 
 
 `returns:`
@@ -83,3 +81,50 @@ Calculates theta parameters and saves them to choosen model.
 ```c++
 arma::vec predict(const arma::mat& X_pred, const arma::vec& params = arma::vec{}) const;
 ```
+Model predictions based on `RMSE` function. 
+
+`params:`
+- **X_pred** : `arma::mat`
+Samples to be predicted.
+
+- **params** : `arma::vec` , **optional**
+Manual model parameters. By default uses parameters evaluated during training using `fit` method.
+
+
+`returns:`
+- **predictions** : `arma::vec`
+Predicted labels.
+
+
+```c++
+std::vector<double> kFoldCrossValidation(const arma::mat& X, const arma::vec& y,
+                                   const size_t k = 5) const;
+```
+Performs K-Fold cross validation on given dataset.
+
+`params:`
+- **X** : `arma::mat`
+training input values (features).
+
+- **y** : `arma::vec`
+target values (labels).
+
+- **k** : `size_t` , **optional**
+number of folds. Default value is `k = 5`
+
+`returns:`
+- **out** : `std::vector<double>`
+`RMSE` for each fold.
+
+
+```c++
+arma::vec getCoeffs() const;
+```
+Returns model parameters. Model needs to be trained in order to call this method
+
+`params:`
+- **None**
+
+`returns:`
+- **out** : `arma::vec`
+Model parameters.
