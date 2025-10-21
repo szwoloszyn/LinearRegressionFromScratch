@@ -1,13 +1,16 @@
 # LinearRegressionFromScratch
 
-This is an implementation of chosen Linear Regression algorithms, build as a C++ library.
+This is an implementation of chosen Linear Regression algorithms, built as a C++ library.
 
 :exclamation: NOTE: This project was created strictly for educational purposes — to explore how linear regression works under the hood, without relying on external machine learning libraries. Therefore it is not intended for production use and I cannot guarantee that it will perform optimally or handle every possible edge case. :exclamation:
 
 ## Table of contents
-- [What is it](#whatisit)
-- [How to run](#howtorun)
-- [Code Map](#codemap)
+- [What is it](#what-is-it)
+- [How to run](#how-to-run)
+- [Code Map](#code-map)
+    - [Available algorithms](#1-available-algorithms)
+    - [Using the library](#2-using-the-library)
+    - [Library in python](#3-library-in-python)
 
 ## What is it
 
@@ -26,6 +29,12 @@ Full installation guide, alongside with installation scripts and library usage e
 ### 2. USING THE LIBRARY
 
 All classes are derived from `LinearRegression` abstract class which has implemented public methods for training and evaluating model. These can be used with any model.
+
+In order to use a model in your code, use:
+```c++
+#include "modelname.h" // LOWER CASE
+```
+Practical example [here](./install/example.cpp).
 
 ### 2.1 `NormalEquation`
 
@@ -59,7 +68,7 @@ number of iterations
 `returns:`
 - **obj** : `BatchGradientDescent`
 
-### 2.2 `LinearRegression`
+### 2.3 `LinearRegression`
 
 
 ```c++
@@ -160,3 +169,15 @@ expected values (labels).
 
 `returns:`
 - **None**
+
+### 3. LIBRARY IN PYTHON
+
+All of the above methods are available in bot `C++` and `Python`. In order to use them in python, pass `Numpy` arrays as arguments. 1D-array instead of `arma::vec` and ND-array instead of `arma::mat`. Library's `Python` package is named **linregpy**.
+
+Simply import the package in python file and all the classes and methods are available.
+
+```python
+import linregpy
+```
+
+Practical example [here](./install/example.py).
