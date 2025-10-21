@@ -2,7 +2,7 @@
 
 This is an implementation of chosen Linear Regression algorithms, built as a C++ library.
 
-:exclamation: NOTE: This project was created strictly for educational purposes — to explore how linear regression works under the hood, without relying on external machine learning libraries. Therefore it is not intended for production use and I cannot guarantee that it will perform optimally or handle every possible edge case. :exclamation:
+:exclamation: **[NOTE]**: This project was created strictly for educational purposes — to explore how linear regression works under the hood, without relying on external machine learning libraries. Therefore it is not intended for production use and I cannot guarantee that it will perform optimally or handle every possible edge case. :exclamation:
 
 ## Table of contents
 - [What is it](#what-is-it)
@@ -14,23 +14,31 @@ This is an implementation of chosen Linear Regression algorithms, built as a C++
 
 ## What is it
 
-**LinearRegressionFromScratch** is a library written in `C++ 17`. It implements two basic Linear Regression algorithms - *Normal Equation and Batch Gradient Descent.* Library might be built int. Despite the fact that the library is written in `C++` language, it might be also used with `python >= 3.11`. For installation guide, visit [How to run](#howtorun) section. For mathematical object representation, library is using [Armadillo](https://arma.sourceforge.net/). This project also delivers features such as RMSE calculation for testing and evaluating trained model and K-fold cross validation.
+**LinearRegressionFromScratch** is a library written in `C++ 17`. 
+It implements two basic Linear Regression algorithms - **Normal Equation** and **Batch Gradient Descent**.
+Despite being written in `C++`, the library can be also used with `python >= 3.11`. 
+For installation guide, visit [How to run](#howtorun) section. 
+For mathematical operations, the library is using [Armadillo](https://arma.sourceforge.net/). 
+
+This project also delivers features such as `RMSE` calculation for testing and evaluating trained model and K-fold cross validation.
 
 ## How to run
-Full installation guide, alongside with installation scripts and library usage examples, are available in [install](./install/) directory.
+A complete installation guide, alongside with setup scripts and library usage examples, are available in [install](./install/) directory.
 
 ## Code Map
 
 ### 1. AVAILABLE ALGORITHMS:
-- `Normal Equation`- defined [formula](https://mathworld.wolfram.com/NormalEquation.html) for linear fit. Beware - its accurate but **very** slow when number of features goes up. 
-- `Batch Gradient Descent` - iterative algorithm which (in this implementation) calculates `RMSE function` gradient on **whole** dataset in order to find `minimum` of the function. It is very precise, but it's performance is significantly dropping, when the dataset is getting large.
-- `Stochastic Gradient Descent` - **(Not implemented yet)**. Works like `Batch Gradient Descent` but in every iteration chooses one random entry from dataset. This way algorithm's complexity is not related to size of a dataset.
+- `Normal Equation`- Uses analytical [formula](https://mathworld.wolfram.com/NormalEquation.html) for linear fitting. Beware - its accurate but **very** slow when number of features goes up. 
+- `Batch Gradient Descent` - An iterative optimization algorithm which (in this implementation) computes `RMSE function` gradient on **entire** dataset to find its `minimum` of the function.
+It is very precise, but it's performance significantly decreases as the dataset grows.
+- `Stochastic Gradient Descent` - ***(Not implemented yet)***. 
+Works similarly to `Batch Gradient Descent` but in every iteration chooses one random sample from dataset. This way algorithm's complexity is not related to dataset size.
 
 ### 2. USING THE LIBRARY
 
-All classes are derived from `LinearRegression` abstract class which has implemented public methods for training and evaluating model. These can be used with any model.
+All models are classes derived from `LinearRegression` abstract class, which provides public methods for training and evaluating models. 
 
-In order to use a model in your code, use:
+To include a model in your code:
 ```c++
 #include "modelname.h" // LOWER CASE
 ```
@@ -58,11 +66,11 @@ NormalEquation()
 BatchGradientDescent::BatchGradientDescent(double eta, size_t n = 1000)
 ```
 
-`params:`
+`parameters:`
 - **eta** : `float64`
 algorithm's learning rate
 
-- **n** : `size_t`
+- **n** : `size_t`, *(optional, default = 1000)*
 number of iterations
 
 `returns:`
@@ -74,9 +82,9 @@ number of iterations
 ```c++
 void fit(const arma::mat& X, const arma::vec& y)
 ```
-Calculates theta parameters and saves them to choosen model.
+Calculates theta parameters and saves them to the selected model.
 
-`params:`
+`parameters:`
 - **X** : `arma::mat`
 training input values (features).
 
@@ -90,14 +98,14 @@ target values (labels).
 ```c++
 arma::vec predict(const arma::mat& X_pred, const arma::vec& params = arma::vec{}) const;
 ```
-Model predictions based on `RMSE` function. 
+Generates predictions based on the trained model. (Optionally on provided parameters)
 
-`params:`
+`parameters:`
 - **X_pred** : `arma::mat`
-Samples to be predicted.
+Samples to predict.
 
-- **params** : `arma::vec` , **optional**
-Manual model parameters. By default uses parameters evaluated during training using `fit` method.
+- **params** : `arma::vec` , *(optional, default = None)*
+Custom model parameters. By default uses parameters evaluated during training using `fit` method.
 
 
 `returns:`
@@ -109,29 +117,30 @@ Predicted labels.
 std::vector<double> kFoldCrossValidation(const arma::mat& X, const arma::vec& y,
                                    const size_t k = 5) const;
 ```
-Performs K-Fold cross validation on given dataset.
+Performs K-Fold Cross Validation on given dataset.
 
-`params:`
+`parameters:`
 - **X** : `arma::mat`
 training input values (features).
 
 - **y** : `arma::vec`
 target values (labels).
 
-- **k** : `size_t` , **optional**
-number of folds. Default value is `k = 5`
+- **k** : `size_t` , *(optional, default = 5)*
+number of folds.
 
 `returns:`
 - **out** : `std::vector<double>`
-`RMSE` for each fold.
+`RMSE` value for each fold.
 
 
 ```c++
 arma::vec getCoeffs() const;
 ```
-Returns model parameters. Model needs to be trained in order to call this method
+Rturns the trained model parameters.
+The model must be fitted before calling this method.
 
-`params:`
+`parameters:`
 - **None**
 
 `returns:`
@@ -142,13 +151,13 @@ Model parameters.
 ```c++
 double getRMSE(const arma::mat& X_test, const arma::vec& y_test) const;
 ```
-Returns RMSE error for given sample.
+Computes **Root Mean Squared Error** for given sample and expected values.
 
-`params:`
-- **X** : `arma::mat`
-testing input values (features).
+`parameters:`
+- **X_test** : `arma::mat`
+test input values (features).
 
-- **y** : `arma::vec`
+- **y_test** : `arma::vec`
 expected values (labels).
 
 `returns:`
@@ -158,13 +167,13 @@ Mean error for given dataset.
 ```c++
 void RMSEReport(const arma::mat& X_test, const arma::vec& y_test) const;
 ```
-Prints clean report on `RMSE` statistical parameters. (just mean for now TODO later :) )
+Prints formatted report on `RMSE` statistical parameters. *(curr only mean - TODO: add more metrics)*
 
-`params:`
-- **X** : `arma::mat`
-testing input values (features).
+`parameters:`
+- **X_test** : `arma::mat`
+test input values (features).
 
-- **y** : `arma::vec`
+- **y_test** : `arma::vec`
 expected values (labels).
 
 `returns:`
@@ -172,12 +181,24 @@ expected values (labels).
 
 ### 3. LIBRARY IN PYTHON
 
-All of the above methods are available in bot `C++` and `Python`. In order to use them in python, pass `Numpy` arrays as arguments. 1D-array instead of `arma::vec` and ND-array instead of `arma::mat`. Library's `Python` package is named **linregpy**.
+All of the above methods are available in both `C++` and `Python`. 
+In order to use them in python, pass `Numpy` arrays as arguments. 
+- 1D-array instead of `arma::vec` 
+- ND-array instead of `arma::mat`. 
+Library's `Python` package is named **linregpy**.
 
-Simply import the package in python file and all the classes and methods are available.
+To use:
 
 ```python
 import linregpy
 ```
 
 Practical example [here](./install/example.py).
+
+Much of the inspiration and technical understanding behind this project comes from the book [Hands-on Machine Learning with Scikit-Learn, Keras & TensorFlow](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/) written by **Aurélien Géron**.
+
+
+#### FUTURE WORK
+- Implement SGD
+- expand RMSEReport statistics
+- TODOs in code. 

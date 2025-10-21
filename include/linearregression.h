@@ -9,7 +9,6 @@
 #else
 #define TESTABLE protected
 #endif
-// TODO 1. update instalation script and readme 2. start pull requesting
 
 class LinearRegression
 {
