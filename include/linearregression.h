@@ -23,7 +23,9 @@ public:
     std::vector<double> kFoldCrossValidation(const arma::mat& X, const arma::vec& y,
                                    const size_t k = 5) const;
     arma::vec getCoeffs() const;
+    double getRMSE(const arma::mat& X_test, const arma::vec& y_test) const;
     void RMSEReport(const arma::mat& X_test, const arma::vec& y_test) const;
+
     virtual ~LinearRegression() { }
 TESTABLE:
     virtual arma::vec getFitResults(const arma::mat& X, const arma::vec& y) const = 0;
@@ -52,6 +54,7 @@ TESTABLE:
     }
 
     double RMSE(const arma::vec& actual, const arma::vec& predicted) const;
+
 
 protected:
     arma::vec linearParams;

@@ -79,6 +79,8 @@ arma::vec LinearRegression::getCoeffs() const
     return linearParams;
 }
 
+
+
 void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const size_t k,
                                   std::vector<arma::mat> &X_folds, std::vector<arma::vec> &y_folds) const
 {
@@ -105,12 +107,15 @@ void LinearRegression::splitFolds(const arma::mat& X, const arma::vec& y, const 
 }
 
 
-// template <typename T>
-// T LinearRegression::concatFolds(const std::vector<T>& folds, const size_t excludeIdx) const
-
+double LinearRegression::getRMSE(const arma::mat &X_test, const arma::vec &y_test) const
+{
+    auto y_pred = predict(X_test);
+    return RMSE(y_test,y_pred);
+}
 
 void LinearRegression::RMSEReport(const arma::mat &X_test, const arma::vec &y_test) const
 {
+    // TODO get median, stdev etc
     auto y_pred = predict(X_test);
     std::cout << "\nMean RMSE for whole testing set: \n";
     std::cout << RMSE(y_test,y_pred) << "\n";

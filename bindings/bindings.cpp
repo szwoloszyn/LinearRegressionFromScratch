@@ -114,6 +114,12 @@ PYBIND11_MODULE(linregpy, m) {
             return py::cast(results); // std::vector<double> → list
         }, py::arg("X"), py::arg("y"), py::arg("k") = 5)
 
+        .def("getRMSE", [](const LinearRegression& self,
+                        const py::array_t<double>& X_test,
+                        const py::array_t<double>& y_test) {
+            return self.getRMSE(numpy_to_arma_mat(X_test), numpy_to_arma_vec(y_test));
+        }, py::arg("X_test"), py::arg("y_test"))
+
         .def("RMSEReport", [](const LinearRegression& self,
                               const py::array_t<double>& X_test,
                               const py::array_t<double>& y_test) {
