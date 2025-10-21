@@ -37,7 +37,7 @@ g++ -O3 example.cpp -llinregfromscratch -o example.out
 ```
 ##### INCLUDES:
 In your `.cpp` file you can use following includes:
-- `#include "normalequation.h"` ( Linear Regression using normal equation for calculations (accurate but **very** slow when number of features raises) ) - move this to global readme !
+- `#include "normalequation.h"`
 - `#include "batchgradientdescent.h"`
 
 Details are described in [README.md](../README.md) file.
