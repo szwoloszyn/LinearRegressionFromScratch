@@ -28,7 +28,7 @@ A complete installation guide, alongside with setup scripts and library usage ex
 ## Code Map
 
 ### 1. AVAILABLE ALGORITHMS:
-- `Normal Equation`- Uses analytical [formula](https://mathworld.wolfram.com/NormalEquation.html) for linear fitting. Beware - The result may be highly inaccurate due to numerical instability, as the matrix inverted in the aforementioned formula is ill-conditioned.
+- `Normal Equation`- Uses naive analytical [formula](https://mathworld.wolfram.com/NormalEquation.html) for linear fitting. Beware - The result may be highly inaccurate due to numerical instability, as the matrix inverted in the aforementioned formula is ill-conditioned.
 - `Batch Gradient Descent` - An iterative optimization algorithm which (in this implementation) computes `RMSE function` gradient on **entire** dataset to find its `minimum` of the function.
 It is very precise, but it's performance significantly decreases as the dataset grows.
 - `Stochastic Gradient Descent` - ***(Not implemented yet)***. 
